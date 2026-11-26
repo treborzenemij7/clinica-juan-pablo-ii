@@ -1,0 +1,3227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Servicio Médico Juan Pablo II — Consultas especializadas, Rayos X digitales, laboratorio clínico y medicina integral en Ejido, Estado Mérida, Venezuela.">
+  <meta name="keywords" content="Servicio Médico Juan Pablo II, Clínica Ejido, Médicos Mérida, Consultas Médicas, Rayos X, Laboratorio, Ginecología, Pediatría, Traumatología, Cardiología, Neumología, Nefrología, Fisiatría, Urología, Medicina Interna">
+  <meta name="author" content="Servicio Médico Juan Pablo II">
+  <meta name="theme-color" content="#012248">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_VE">
+  <meta property="og:title" content="Servicio Médico Juan Pablo II | Ejido, Mérida">
+  <meta property="og:description" content="Cuidado médico con vocación humana. 12 especialidades, Rayos X y laboratorio clínico en Ejido, Estado Mérida.">
+
+  <title>Servicio Médico Juan Pablo II | Ejido, Mérida</title>
+
+  <link rel="icon" type="image/webp" href="assets/logo-mini-jpii.webp">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Librerías Open-Source gratuitas verificadas en GitHub (carga progresiva con fallback nativo) -->
+  <!-- Leaflet/Leaflet (46k ★ · BSD-2-Clause) + darkroomengineering/lenis (17.5k ★ · MIT) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css" data-progressive-cdn="true">
+  <script defer src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js" data-progressive-cdn="true"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.3.28/dist/lenis.min.js" data-progressive-cdn="true"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "name": "Servicio Médico Juan Pablo II",
+    "description": "Consultas médicas especializadas, Rayos X y laboratorio clínico en Ejido, Estado Mérida, Venezuela.",
+    "telephone": ["+58-274-2219492", "+58-424-7225404"],
+    "email": "serv.med.juanjuanpablo2@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Ejido",
+      "addressRegion": "Mérida",
+      "addressCountry": "VE"
+    },
+    "openingHours": ["Mo-Fr 07:00-12:00", "Mo-Fr 14:00-18:00"],
+    "sameAs": ["https://instagram.com/clinicajuanpablo2do"]
+  }
+  </script>
+
+  <style>
+    /* ==========================================================================
+       SERVICIO MÉDICO JUAN PABLO II — SISTEMA VISUAL 3D PARALLAX + BENTO GLASS
+       Paleta extraída directamente de HERO_JPII.jfif en degradación:
+       - Base profunda Hero: #000F35 / #012248 / #00264D
+       - Cerúleo medio Hero: #01517B / #086792
+       - Destello cian clínico: #1EE3FF / #7CEBFF
+       - Acento cálido pulso ECG: #FF574A / #F3CB7C
+       - Botones Neumorphism suaves en tono fondo Hero: #062D55
+       ========================================================================== */
+    :root {
+      --hero-void:      #000E2E;
+      --hero-deep:      #011C3F;
+      --hero-base:      #032952;
+      --hero-mid:       #01517B;
+      --hero-cerulean:  #0B6E9B;
+      --hero-cyan:      #1EE3FF;
+      --hero-cyan-soft: #7EEBFF;
+      --hero-coral:     #FF574A;
+      --hero-gold:      #F3CB7C;
+      --hero-emerald:   #22D38B;
+
+      /* Neumorphism basado exactamente en el color de fondo del Hero */
+      --neu-surface:        #062D55;
+      --neu-surface-hi:     #0B3E70;
+      --neu-surface-lo:     #031C3A;
+      --neu-shadow-dark:    rgba(0, 7, 22, 0.78);
+      --neu-shadow-light:   rgba(56, 168, 224, 0.25);
+      --neu-rim:            rgba(126, 235, 255, 0.24);
+
+      /* Glassmorphism para todos los Bento Dashboards */
+      --glass-bg:           linear-gradient(145deg, rgba(11, 56, 98, 0.52) 0%, rgba(2, 26, 56, 0.42) 100%);
+      --glass-bg-strong:    linear-gradient(145deg, rgba(14, 68, 114, 0.64) 0%, rgba(3, 28, 60, 0.56) 100%);
+      --glass-border:       rgba(126, 235, 255, 0.20);
+      --glass-border-hi:    rgba(126, 235, 255, 0.42);
+      --glass-shadow:       0 20px 50px rgba(0, 7, 24, 0.48), inset 0 1px 0 rgba(190, 245, 255, 0.18);
+
+      /* Tintas de alta legibilidad sobre vidrio oscuro */
+      --text-primary:   #F3F9FF;
+      --text-secondary: #B7D4E8;
+      --text-muted:     #82AAC7;
+
+      /* Emergencia normativa */
+      --alert-bg:       rgba(155, 24, 34, 0.92);
+
+      --font-sans: "Basis Grotesque Arabic", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-display: "Space Grotesk", "Plus Jakarta Sans", sans-serif;
+
+      --radius-sm:  14px;
+      --radius-md:  22px;
+      --radius-lg:  28px;
+      --radius-xl:  34px;
+      --radius-pill: 999px;
+
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --container-max: 1240px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      scroll-padding-top: 128px;
+      background-color: var(--hero-void);
+      overflow-x: clip;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+      background-color: var(--hero-void);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: clip;
+      position: relative;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      isolation: isolate;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a { color: inherit; }
+    button { font-family: inherit; }
+
+    :focus-visible {
+      outline: 2px solid var(--hero-cyan);
+      outline-offset: 3px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .tabular { font-variant-numeric: tabular-nums; }
+
+    .container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 clamp(16px, 3vw, 32px);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ==========================================================================
+       CAPAS DE FONDO GLOBALES: GRADIENT MESH EN DEGRADACIÓN DEL HERO + PARALLAX
+       ========================================================================== */
+    .parallax-universe {
+      position: fixed;
+      inset: -8%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 10%, rgba(1, 81, 123, 0.72) 0%, transparent 62%),
+        radial-gradient(ellipse 70% 55% at 88% 18%, rgba(11, 110, 155, 0.56) 0%, transparent 58%),
+        radial-gradient(ellipse 65% 55% at 50% 52%, rgba(3, 41, 82, 0.78) 0%, transparent 68%),
+        radial-gradient(ellipse 60% 50% at 82% 78%, rgba(1, 81, 123, 0.52) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 45% at 14% 88%, rgba(255, 87, 74, 0.12) 0%, transparent 60%),
+        linear-gradient(165deg, #000F35 0%, #012248 34%, #013961 64%, #001438 100%);
+    }
+
+    .bg-parallax-layer {
+      position: absolute;
+      inset: 0;
+      will-change: transform;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Orbes orgánicos Gradient Mesh en degradación */
+    .mesh-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(78px);
+      opacity: 0.65;
+      animation: meshDrift 18s ease-in-out infinite alternate;
+    }
+
+    .mesh-orb-1 {
+      width: 56vw;
+      height: 56vw;
+      max-width: 760px;
+      max-height: 760px;
+      top: -12%;
+      left: -8%;
+      background: radial-gradient(circle, rgba(1, 108, 152, 0.75) 0%, rgba(1, 81, 123, 0.28) 52%, transparent 74%);
+    }
+
+    .mesh-orb-2 {
+      width: 48vw;
+      height: 48vw;
+      max-width: 680px;
+      max-height: 680px;
+      top: 12%;
+      right: -10%;
+      background: radial-gradient(circle, rgba(30, 227, 255, 0.28) 0%, rgba(1, 81, 123, 0.38) 48%, transparent 72%);
+      animation-delay: -6s;
+      animation-duration: 22s;
+    }
+
+    .mesh-orb-3 {
+      width: 44vw;
+      height: 44vw;
+      max-width: 620px;
+      max-height: 620px;
+      bottom: 8%;
+      left: 18%;
+      background: radial-gradient(circle, rgba(11, 110, 155, 0.45) 0%, rgba(255, 87, 74, 0.14) 55%, transparent 75%);
+      animation-delay: -10s;
+      animation-duration: 25s;
+    }
+
+    .mesh-orb-4 {
+      width: 34vw;
+      height: 34vw;
+      max-width: 480px;
+      max-height: 480px;
+      top: 44%;
+      right: 16%;
+      background: radial-gradient(circle, rgba(243, 203, 124, 0.14) 0%, rgba(30, 227, 255, 0.14) 48%, transparent 72%);
+      animation-delay: -3s;
+      animation-duration: 20s;
+    }
+
+    /* Plano 3D atmosférico sutil que armoniza con la retícula del Hero */
+    .mesh-depth-plane {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(126, 235, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(126, 235, 255, 0.045) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 10%, transparent 82%);
+      -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 10%, transparent 82%);
+      transform: perspective(900px) rotateX(22deg) scale(1.15);
+      transform-origin: center top;
+    }
+
+    /* Anillos holográficos suaves en profundidad 3D */
+    .depth-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(126, 235, 255, 0.14);
+      box-shadow: 0 0 40px rgba(30, 227, 255, 0.08);
+    }
+
+    .depth-ring-1 {
+      width: 460px;
+      height: 460px;
+      top: 8%;
+      right: 4%;
+      animation: float3D 14s ease-in-out infinite;
+    }
+
+    .depth-ring-2 {
+      width: 320px;
+      height: 320px;
+      bottom: 18%;
+      left: 3%;
+      border-color: rgba(255, 87, 74, 0.12);
+      animation: float3D 17s ease-in-out infinite reverse;
+    }
+
+    @keyframes meshDrift {
+      0%   { transform: translate3d(0, 0, 0) scale(1); }
+      50%  { transform: translate3d(3%, -3.5%, 0) scale(1.06); }
+      100% { transform: translate3d(-2.5%, 3%, 0) scale(0.97); }
+    }
+
+    @keyframes float3D {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+      50%      { transform: translate3d(0, -18px, 0) rotate(8deg); }
+    }
+
+    /* ==========================================================================
+       SISTEMA DE BOTONES NEUMORPHISM SUAVES (COLOR DE FONDO DEL HERO)
+       ========================================================================== */
+    .neu-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 22px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--neu-rim);
+      background: linear-gradient(145deg, var(--neu-surface-hi) 0%, var(--neu-surface-lo) 100%);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow:
+        8px 8px 18px var(--neu-shadow-dark),
+        -5px -5px 14px var(--neu-shadow-light),
+        inset 1px 1px 1px rgba(170, 238, 255, 0.22);
+      transition:
+        transform 0.24s var(--ease-out),
+        box-shadow 0.24s var(--ease-out),
+        border-color 0.24s ease,
+        background 0.24s ease,
+        color 0.24s ease;
+    }
+
+    .neu-btn svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    .neu-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(126, 235, 255, 0.52);
+      box-shadow:
+        10px 12px 24px rgba(0, 6, 20, 0.85),
+        -6px -6px 18px rgba(30, 227, 255, 0.22),
+        0 0 22px rgba(30, 227, 255, 0.16),
+        inset 1px 1px 2px rgba(210, 248, 255, 0.34);
+    }
+
+    .neu-btn:active {
+      transform: translateY(1px);
+      box-shadow:
+        inset 6px 6px 14px rgba(0, 7, 22, 0.86),
+        inset -4px -4px 12px rgba(48, 156, 214, 0.24);
+    }
+
+    /* Variante Neumorphism Primaria (Cian-Cerúleo del Hero con volumen suave) */
+    .neu-btn-accent {
+      background: linear-gradient(145deg, #0D5E8B 0%, #05335E 100%);
+      border-color: rgba(30, 227, 255, 0.45);
+      color: #FFFFFF;
+      box-shadow:
+        8px 10px 22px rgba(0, 8, 26, 0.82),
+        -5px -5px 16px rgba(30, 227, 255, 0.24),
+        inset 1px 1px 2px rgba(165, 245, 255, 0.35);
+    }
+
+    .neu-btn-accent:hover {
+      background: linear-gradient(145deg, #1173A8 0%, #074173 100%);
+      border-color: rgba(126, 235, 255, 0.72);
+      box-shadow:
+        10px 14px 28px rgba(0, 8, 26, 0.88),
+        -6px -6px 20px rgba(30, 227, 255, 0.32),
+        0 0 28px rgba(30, 227, 255, 0.26),
+        inset 1px 1px 2px rgba(220, 252, 255, 0.45);
+    }
+
+    /* Variante Neumorphism WhatsApp armonizada con el fondo Hero */
+    .neu-btn-wa {
+      background: linear-gradient(145deg, #0B5C5A 0%, #053344 100%);
+      border-color: rgba(34, 211, 139, 0.44);
+      color: #ECFFF7;
+      box-shadow:
+        8px 10px 22px rgba(0, 8, 24, 0.82),
+        -5px -5px 15px rgba(34, 211, 139, 0.2),
+        inset 1px 1px 2px rgba(145, 255, 212, 0.3);
+    }
+
+    .neu-btn-wa:hover {
+      background: linear-gradient(145deg, #0F726C 0%, #074252 100%);
+      border-color: rgba(34, 211, 139, 0.72);
+      box-shadow:
+        10px 14px 26px rgba(0, 8, 24, 0.86),
+        -6px -6px 18px rgba(34, 211, 139, 0.28),
+        0 0 24px rgba(34, 211, 139, 0.22),
+        inset 1px 1px 2px rgba(190, 255, 232, 0.42);
+    }
+
+    .neu-btn-sm {
+      padding: 8px 16px;
+      font-size: 0.82rem;
+    }
+
+    .neu-btn-lg {
+      padding: 14px 26px;
+      font-size: 0.95rem;
+    }
+
+    .neu-btn-icon {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border-radius: 50%;
+    }
+
+    .neu-btn.active {
+      background: linear-gradient(145deg, #031B38 0%, #0A3C6E 100%);
+      border-color: rgba(30, 227, 255, 0.62);
+      color: var(--hero-cyan-soft);
+      box-shadow:
+        inset 5px 5px 12px rgba(0, 7, 22, 0.84),
+        inset -4px -4px 10px rgba(48, 168, 226, 0.24),
+        0 0 16px rgba(30, 227, 255, 0.18);
+    }
+
+    /* ==========================================================================
+       CABECERA STICKY UNIFICADA (AVISO EMERGENCIAS + GLASS NAVBAR + MINI LOGO)
+       ========================================================================== */
+    .site-chrome {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+    }
+
+    .emergency-bar {
+      background: linear-gradient(90deg, rgba(132, 18, 28, 0.96) 0%, rgba(168, 27, 38, 0.95) 50%, rgba(132, 18, 28, 0.96) 100%);
+      backdrop-filter: blur(10px);
+      color: #FFFFFF;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 190, 190, 0.22);
+    }
+
+    .emergency-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      text-align: center;
+    }
+
+    .emergency-inner svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: #FFD2CF;
+    }
+
+    .site-header {
+      background: rgba(1, 24, 54, 0.72);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      border-bottom: 1px solid rgba(126, 235, 255, 0.15);
+      transition: background-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(1, 20, 46, 0.88);
+      box-shadow: 0 12px 32px rgba(0, 7, 22, 0.55);
+    }
+
+    .nav-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 76px;
+    }
+
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      min-width: 0;
+    }
+
+    .brand-mini-emblem {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      padding: 2px;
+      background: linear-gradient(145deg, var(--hero-cyan), var(--hero-mid) 60%, var(--hero-coral));
+      box-shadow:
+        4px 4px 12px rgba(0, 6, 20, 0.72),
+        -3px -3px 10px rgba(30, 227, 255, 0.2);
+      flex-shrink: 0;
+    }
+
+    .brand-mini-emblem img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--hero-deep);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 0.98rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      line-height: 1.15;
+    }
+
+    .brand-subtitle {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--hero-cyan-soft);
+      opacity: 0.85;
+      margin-top: 2px;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .main-nav a {
+      text-decoration: none;
+      font-size: 0.87rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      padding: 8px 13px;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      transition: all 0.22s ease;
+    }
+
+    .main-nav a:hover {
+      color: #FFFFFF;
+      background: rgba(30, 227, 255, 0.1);
+      border-color: rgba(126, 235, 255, 0.2);
+    }
+
+    .main-nav a.active {
+      color: var(--hero-cyan-soft);
+      background: rgba(6, 45, 85, 0.8);
+      border-color: rgba(126, 235, 255, 0.34);
+      box-shadow: inset 2px 2px 6px rgba(0, 7, 22, 0.65);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Botón de Despliegue en Cabecera con Mini Logo extraído */
+    .header-deploy-btn {
+      padding: 6px 14px 6px 7px;
+      gap: 9px;
+    }
+
+    .mini-logo-chip {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1.5px solid rgba(126, 235, 255, 0.65);
+      box-shadow: 0 0 10px rgba(30, 227, 255, 0.35);
+      flex-shrink: 0;
+    }
+
+    .mini-logo-chip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border-radius: 50%;
+    }
+
+    /* ==========================================================================
+       SECCIÓN HERO 3D PARALLAX MULTICAPA CON IMAGEN ADJUNTA HERO_JPII.jfif
+       ========================================================================== */
+    .hero-section {
+      position: relative;
+      z-index: 2;
+      padding: clamp(28px, 4vw, 52px) 0 clamp(44px, 6vw, 72px);
+      overflow: visible;
+    }
+
+    .hero-stage-shell {
+      position: relative;
+      perspective: 1500px;
+      transform-style: preserve-3d;
+    }
+
+    /* Capas Parallax locales del Hero */
+    .hero-bg-aura {
+      position: absolute;
+      inset: -28px -18px;
+      border-radius: 44px;
+      background:
+        radial-gradient(ellipse 60% 60% at 75% 45%, rgba(30, 227, 255, 0.24) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 50% at 20% 60%, rgba(255, 87, 74, 0.16) 0%, transparent 65%),
+        radial-gradient(ellipse 75% 75% at 50% 50%, rgba(1, 81, 123, 0.42) 0%, transparent 72%);
+      filter: blur(36px);
+      z-index: 0;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .hero-3d-frame {
+      position: relative;
+      z-index: 2;
+      border-radius: var(--radius-xl);
+      transform-style: preserve-3d;
+      will-change: transform;
+      animation: heroIdle3D 10s ease-in-out infinite;
+      box-shadow:
+        0 34px 80px rgba(0, 6, 22, 0.72),
+        0 0 0 1px rgba(126, 235, 255, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      background: var(--hero-deep);
+    }
+
+    .hero-3d-frame.interacting {
+      animation: none;
+    }
+
+    @keyframes heroIdle3D {
+      0%, 100% { transform: rotateX(1.2deg) rotateY(-1.4deg) translateZ(0px); }
+      50%      { transform: rotateX(-1.1deg) rotateY(1.4deg) translateZ(10px); }
+    }
+
+    .hero-image-clip {
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      aspect-ratio: 1024 / 571;
+      background: #012248;
+    }
+
+    .hero-artwork {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.03);
+      will-change: transform;
+      transition: transform 0.22s ease-out;
+    }
+
+    /* Reflejo especular 3D dinámico que sigue el cursor */
+    .hero-specular {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle 420px at var(--mx, 65%) var(--my, 42%), rgba(126, 235, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 36%, transparent 68%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Borde inferior suave para integrar las capas flotantes */
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0, 15, 53, 0.14) 0%, transparent 22%, transparent 76%, rgba(0, 14, 46, 0.52) 100%),
+        radial-gradient(ellipse 95% 95% at 50% 50%, transparent 65%, rgba(0, 12, 38, 0.35) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Zona interactiva invisible sobre el botón visual "Agendar Cita" de la imagen */
+    .hero-cta-hotspot {
+      position: absolute;
+      left: 6.5%;
+      bottom: 12%;
+      width: 21%;
+      height: 13%;
+      border-radius: 999px;
+      z-index: 4;
+      cursor: pointer;
+    }
+
+    /* Capas flotantes 3D (translateZ positivo sobre el plano del Hero) */
+    .hero-float-hud {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 5;
+      transform: translateZ(46px);
+      background: linear-gradient(145deg, rgba(8, 48, 86, 0.72), rgba(1, 22, 50, 0.66));
+      backdrop-filter: blur(18px) saturate(150%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      border: 1px solid rgba(126, 235, 255, 0.32);
+      border-radius: 18px;
+      padding: 11px 16px;
+      box-shadow: 0 14px 34px rgba(0, 6, 22, 0.55);
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .status-open .status-dot {
+      background: var(--hero-emerald);
+      box-shadow: 0 0 0 4px rgba(34, 211, 139, 0.22), 0 0 12px var(--hero-emerald);
+    }
+
+    .status-closed .status-dot {
+      background: var(--hero-gold);
+      box-shadow: 0 0 0 4px rgba(243, 203, 124, 0.22);
+    }
+
+    .hud-copy strong {
+      display: block;
+      font-size: 0.79rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.2;
+    }
+
+    .hud-copy span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Barra de Control Neumorphism + Glassmorphism bajo el Hero 3D */
+    .hero-command-dock {
+      position: relative;
+      z-index: 6;
+      margin: 22px auto 0;
+      width: 100%;
+      background: var(--glass-bg-strong);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border: 1px solid var(--glass-border-hi);
+      border-radius: var(--radius-lg);
+      padding: 20px 26px;
+      box-shadow: var(--glass-shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .dock-identity {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .dock-identity h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 1.45vw, 1.22rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      line-height: 1.22;
+    }
+
+    .dock-identity p {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .dock-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ==========================================================================
+       SISTEMA BENTO GRID GLASSMORPHISM PARA TODOS LOS DASHBOARDS
+       ========================================================================== */
+    .dashboard-section {
+      position: relative;
+      z-index: 2;
+      padding: clamp(34px, 5vw, 64px) 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--hero-cyan-soft);
+      margin-bottom: 10px;
+    }
+
+    .section-kicker::before {
+      content: "";
+      width: 24px;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--hero-cyan), var(--hero-coral));
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 2.9vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .section-subtitle {
+      font-size: 0.96rem;
+      color: var(--text-secondary);
+      max-width: 62ch;
+    }
+
+    /* Contenedor base de tarjeta Glassmorphism Bento con degradación Hero */
+    .bento-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      background: var(--glass-bg);
+      backdrop-filter: blur(22px) saturate(150%);
+      -webkit-backdrop-filter: blur(22px) saturate(150%);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      padding: clamp(20px, 2.5vw, 28px);
+      overflow: hidden;
+      transition: transform 0.3s var(--ease-out), border-color 0.25s ease, box-shadow 0.3s var(--ease-out);
+    }
+
+    /* Degradación interna sutil tipo Gradient Mesh dentro de cada Dashboard Bento */
+    .bento-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 75% 65% at 10% 0%, rgba(30, 227, 255, 0.11) 0%, transparent 58%),
+        radial-gradient(ellipse 65% 55% at 95% 100%, rgba(1, 81, 123, 0.28) 0%, transparent 62%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bento-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .bento-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--glass-border-hi);
+      box-shadow:
+        0 26px 58px rgba(0, 6, 22, 0.62),
+        0 0 28px rgba(30, 227, 255, 0.1),
+        inset 0 1px 0 rgba(210, 248, 255, 0.28);
+    }
+
+    .bento-grid-12 {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .span-3  { grid-column: span 3; }
+    .span-4  { grid-column: span 4; }
+    .span-5  { grid-column: span 5; }
+    .span-6  { grid-column: span 6; }
+    .span-7  { grid-column: span 7; }
+    .span-8  { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+
+    /* ==========================================================================
+       DASHBOARD 1: BENTO DE TELEMETRÍA CLÍNICA Y PRIVACIDAD NORMATIVA
+       ========================================================================== */
+    .bento-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--hero-cyan-soft);
+      margin-bottom: 14px;
+    }
+
+    .bento-kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .kpi-tile {
+      padding: 15px 14px;
+      border-radius: var(--radius-sm);
+      background: rgba(1, 20, 46, 0.48);
+      border: 1px solid rgba(126, 235, 255, 0.14);
+    }
+
+    .kpi-tile strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.38rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.15;
+    }
+
+    .kpi-tile span {
+      display: block;
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .shift-meter {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: rgba(0, 16, 40, 0.5);
+      border: 1px solid rgba(126, 235, 255, 0.15);
+    }
+
+    .shift-meter-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .shift-bar-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .shift-bar-fill {
+      height: 100%;
+      width: 64%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--hero-cyan), var(--hero-emerald));
+      box-shadow: 0 0 14px rgba(30, 227, 255, 0.45);
+      transition: width 0.6s var(--ease-out);
+    }
+
+    .privacy-bento-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(30, 227, 255, 0.2), rgba(1, 81, 123, 0.35));
+      border: 1px solid rgba(126, 235, 255, 0.34);
+      display: grid;
+      place-items: center;
+      color: var(--hero-cyan-soft);
+      margin-bottom: 14px;
+    }
+
+    /* ==========================================================================
+       DASHBOARD 2: BENTO GRID INTERACTIVO DE 12 ESPECIALIDADES
+       ========================================================================== */
+    .glass-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .glass-search {
+      position: relative;
+      flex: 1 1 240px;
+      max-width: 340px;
+    }
+
+    .glass-search svg {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 17px;
+      height: 17px;
+      color: var(--hero-cyan-soft);
+      pointer-events: none;
+    }
+
+    .glass-search input {
+      width: 100%;
+      padding: 11px 16px 11px 42px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(126, 235, 255, 0.22);
+      background: rgba(1, 19, 44, 0.68);
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 0.88rem;
+      box-shadow: inset 4px 4px 10px rgba(0, 6, 20, 0.72), inset -2px -2px 8px rgba(34, 138, 198, 0.14);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .glass-search input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .glass-search input:focus {
+      outline: none;
+      border-color: var(--hero-cyan);
+      box-shadow:
+        inset 4px 4px 10px rgba(0, 6, 20, 0.72),
+        0 0 0 3px rgba(30, 227, 255, 0.16);
+    }
+
+    .services-bento {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .service-bento-card {
+      grid-column: span 4;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .service-bento-card.featured-bento {
+      grid-column: span 6;
+      background: var(--glass-bg-strong);
+      border-color: rgba(126, 235, 255, 0.3);
+    }
+
+    .service-bento-card.is-hidden {
+      display: none;
+    }
+
+    .service-head-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .service-icon-orb {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #0A4678, #031E3E);
+      border: 1px solid rgba(126, 235, 255, 0.3);
+      color: var(--hero-cyan-soft);
+      display: grid;
+      place-items: center;
+      box-shadow:
+        5px 5px 12px rgba(0, 6, 20, 0.65),
+        -3px -3px 10px rgba(30, 227, 255, 0.14);
+    }
+
+    .service-cat-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--hero-cyan-soft);
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      background: rgba(30, 227, 255, 0.1);
+      border: 1px solid rgba(126, 235, 255, 0.2);
+    }
+
+    .service-bento-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.16rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+      letter-spacing: -0.015em;
+    }
+
+    .service-bento-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.58;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .service-bento-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(126, 235, 255, 0.14);
+      flex-wrap: wrap;
+    }
+
+    .service-direct-link {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--hero-cyan-soft);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s ease, color 0.2s ease;
+    }
+
+    .service-direct-link:hover {
+      color: #FFFFFF;
+      gap: 9px;
+    }
+
+    .empty-state {
+      display: none;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    .empty-state.visible {
+      display: block;
+    }
+
+    /* ==========================================================================
+       DASHBOARD 3: DIAGNÓSTICO (RAYOS X Y LAB) + GUÍA DE PREPARACIÓN
+       ========================================================================== */
+    .diag-photo-wrap {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(126, 235, 255, 0.22);
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .diag-photo-wrap img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+    }
+
+    .diag-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .diag-chip {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      padding: 7px 13px;
+      border-radius: var(--radius-pill);
+      background: rgba(1, 24, 54, 0.56);
+      border: 1px solid rgba(126, 235, 255, 0.2);
+    }
+
+    .prep-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .prep-item {
+      border-radius: var(--radius-sm);
+      background: rgba(1, 20, 48, 0.5);
+      border: 1px solid rgba(126, 235, 255, 0.16);
+      overflow: hidden;
+    }
+
+    .prep-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px 18px;
+      background: transparent;
+      border: 0;
+      color: #FFFFFF;
+      font-size: 0.94rem;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .prep-chevron {
+      width: 18px;
+      height: 18px;
+      color: var(--hero-cyan-soft);
+      transition: transform 0.25s var(--ease-out);
+      flex-shrink: 0;
+    }
+
+    .prep-item[data-open="true"] .prep-chevron {
+      transform: rotate(180deg);
+    }
+
+    .prep-panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.28s var(--ease-out);
+    }
+
+    .prep-item[data-open="true"] .prep-panel {
+      grid-template-rows: 1fr;
+    }
+
+    .prep-panel-inner {
+      overflow: hidden;
+    }
+
+    .prep-panel-inner p {
+      padding: 0 18px 16px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       DASHBOARD 4: CUERPO MÉDICO ESPECIALIZADO (BENTO GLASS)
+       ========================================================================== */
+    .doctor-bento-card {
+      grid-column: span 3;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .doctor-badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .doctor-index {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--hero-gold);
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      background: rgba(243, 203, 124, 0.12);
+      border: 1px solid rgba(243, 203, 124, 0.28);
+    }
+
+    .doctor-bento-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+
+    .doctor-sub {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--hero-cyan-soft);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .doctor-bento-card p {
+      font-size: 0.87rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .doctor-bento-card .neu-btn {
+      width: 100%;
+    }
+
+    /* ==========================================================================
+       DASHBOARD 5: ASISTENTE PRIVADO DE CITAS WHATSAPP (CERO ALMACENAMIENTO)
+       ========================================================================== */
+    .composer-bento {
+      background:
+        radial-gradient(ellipse 65% 80% at 12% 15%, rgba(30, 227, 255, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 70% at 88% 85%, rgba(255, 87, 74, 0.14) 0%, transparent 62%),
+        var(--glass-bg-strong);
+      border-color: rgba(126, 235, 255, 0.34);
+      padding: clamp(24px, 4vw, 44px);
+    }
+
+    .composer-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+      gap: clamp(24px, 4vw, 48px);
+      align-items: center;
+    }
+
+    .guarantees-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-top: 22px;
+    }
+
+    .guarantees-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+
+    .guarantees-list svg {
+      width: 18px;
+      height: 18px;
+      color: var(--hero-emerald);
+      flex-shrink: 0;
+    }
+
+    .composer-form-glass {
+      padding: clamp(20px, 3vw, 28px);
+      border-radius: var(--radius-md);
+      background: rgba(1, 20, 46, 0.62);
+      border: 1px solid rgba(126, 235, 255, 0.22);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    .composer-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .field-group label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--hero-cyan-soft);
+    }
+
+    .neu-select {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(126, 235, 255, 0.24);
+      background: #042347;
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: inset 4px 4px 10px rgba(0, 7, 22, 0.72), inset -2px -2px 8px rgba(34, 138, 198, 0.16);
+    }
+
+    .neu-select:focus {
+      outline: none;
+      border-color: var(--hero-cyan);
+    }
+
+    .wa-preview-card {
+      padding: 15px 16px;
+      border-radius: var(--radius-sm);
+      background: rgba(2, 34, 68, 0.72);
+      border: 1px solid rgba(126, 235, 255, 0.2);
+      margin-bottom: 18px;
+    }
+
+    .wa-preview-card small {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--hero-cyan-soft);
+      margin-bottom: 5px;
+    }
+
+    .wa-preview-card p {
+      font-size: 0.88rem;
+      color: #EAF5FF;
+      line-height: 1.52;
+    }
+
+    .composer-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .composer-cta-row .neu-btn-wa {
+      flex: 1 1 230px;
+    }
+
+    /* ==========================================================================
+       DASHBOARD 6: HORARIOS, MAPA TOPOGRÁFICO EJIDO Y CANALES DIRECTOS
+       ========================================================================== */
+    .schedule-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0 18px;
+    }
+
+    .schedule-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: rgba(1, 20, 48, 0.54);
+      border: 1px solid rgba(126, 235, 255, 0.14);
+      font-size: 0.9rem;
+    }
+
+    .schedule-row.active-shift {
+      background: rgba(11, 92, 90, 0.42);
+      border-color: rgba(34, 211, 139, 0.45);
+      box-shadow: 0 0 18px rgba(34, 211, 139, 0.14);
+    }
+
+    .schedule-row strong { color: #FFFFFF; }
+    .schedule-row span { color: var(--hero-cyan-soft); font-weight: 600; text-align: right; }
+    .schedule-row.active-shift span { color: #7CF5C0; }
+    .schedule-row.closed-row span { color: var(--text-muted); font-weight: 500; }
+
+    .map-bento-frame {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(126, 235, 255, 0.22);
+      min-height: 245px;
+      margin: 14px 0 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background: #011B3D;
+    }
+
+    .map-bento-frame > svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .leaflet-ejido-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .leaflet-ejido-layer .leaflet-tile-pane {
+      filter: invert(92%) hue-rotate(188deg) saturate(1.25) brightness(0.84) contrast(1.06);
+    }
+
+    .leaflet-ejido-layer .leaflet-control-attribution {
+      background: rgba(1, 20, 46, 0.72) !important;
+      color: var(--text-muted) !important;
+      font-size: 0.62rem !important;
+    }
+
+    .leaflet-ejido-layer .leaflet-control-attribution a {
+      color: var(--hero-cyan-soft) !important;
+    }
+
+    .map-glass-bar {
+      position: relative;
+      z-index: 450;
+      margin: 12px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: rgba(2, 24, 54, 0.88);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(126, 235, 255, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .map-glass-bar strong { display: block; font-size: 0.92rem; color: #FFFFFF; }
+    .map-glass-bar span { font-size: 0.8rem; color: var(--text-secondary); }
+
+    .channels-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .channel-glass-tile {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      background: rgba(1, 20, 48, 0.56);
+      border: 1px solid rgba(126, 235, 255, 0.16);
+      text-decoration: none;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .channel-glass-tile:hover {
+      border-color: rgba(126, 235, 255, 0.44);
+      background: rgba(6, 45, 85, 0.65);
+    }
+
+    .channel-meta {
+      min-width: 0;
+    }
+
+    .channel-meta small {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .channel-meta strong {
+      display: block;
+      font-size: 0.86rem;
+      color: #FFFFFF;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ==========================================================================
+       BOTÓN DE DESPLIEGUE FLOTANTE CON MINI LOGO EXTRAÍDO + MENÚ GLASSMORPHISM
+       ========================================================================== */
+    .deploy-launcher-wrap {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 2000;
+      transform: translateZ(0);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 14px;
+    }
+
+    .deploy-drawer {
+      display: none;
+      width: min(320px, calc(100vw - 36px));
+      border-radius: var(--radius-lg);
+      background: linear-gradient(155deg, rgba(8, 48, 88, 0.92) 0%, rgba(1, 20, 46, 0.96) 100%);
+      backdrop-filter: blur(26px) saturate(165%);
+      -webkit-backdrop-filter: blur(26px) saturate(165%);
+      border: 1px solid rgba(126, 235, 255, 0.36);
+      box-shadow: 0 26px 64px rgba(0, 6, 22, 0.82);
+      padding: 18px;
+      transform-origin: bottom right;
+    }
+
+    .deploy-drawer.open {
+      display: block;
+      animation: drawerPop 0.24s var(--ease-out) both;
+    }
+
+    @keyframes drawerPop {
+      from { opacity: 0; transform: translateY(14px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .deploy-drawer-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(126, 235, 255, 0.16);
+    }
+
+    .deploy-drawer-head strong {
+      display: block;
+      font-size: 0.9rem;
+      color: #FFFFFF;
+    }
+
+    .deploy-drawer-head span {
+      display: block;
+      font-size: 0.74rem;
+      color: var(--hero-cyan-soft);
+    }
+
+    .deploy-menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .deploy-menu-list .neu-btn {
+      width: 100%;
+      justify-content: flex-start;
+      padding: 10px 15px;
+      font-size: 0.84rem;
+    }
+
+    /* Botón principal de despliegue (Neumorphism suave + Mini Logo extraído) */
+    .deploy-fab {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      padding: 8px 18px 8px 8px;
+      border-radius: var(--radius-pill);
+      border: 1.5px solid rgba(126, 235, 255, 0.44);
+      background: linear-gradient(145deg, #0D4B80 0%, #031D3D 100%);
+      color: #FFFFFF;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow:
+        10px 12px 26px rgba(0, 6, 22, 0.86),
+        -5px -5px 16px rgba(30, 227, 255, 0.24),
+        0 0 26px rgba(30, 227, 255, 0.22),
+        inset 1px 1px 2px rgba(190, 246, 255, 0.34);
+      transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+    }
+
+    .deploy-fab:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        12px 16px 32px rgba(0, 6, 22, 0.9),
+        -6px -6px 20px rgba(30, 227, 255, 0.32),
+        0 0 34px rgba(30, 227, 255, 0.34);
+    }
+
+    .deploy-fab:active {
+      transform: translateY(0);
+      box-shadow:
+        inset 6px 6px 14px rgba(0, 6, 20, 0.85),
+        inset -4px -4px 12px rgba(48, 168, 226, 0.26);
+    }
+
+    .deploy-fab-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      padding: 2px;
+      background: linear-gradient(145deg, var(--hero-cyan), var(--hero-coral));
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .deploy-fab-logo img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--hero-deep);
+    }
+
+    .deploy-fab-chevron {
+      width: 16px;
+      height: 16px;
+      color: var(--hero-cyan-soft);
+      transition: transform 0.25s var(--ease-out);
+    }
+
+    .deploy-fab[aria-expanded="true"] .deploy-fab-chevron {
+      transform: rotate(180deg);
+    }
+
+    /* ==========================================================================
+       PIE DE PÁGINA INSTITUCIONAL + DESCARGO NORMATIVO
+       ========================================================================== */
+    .site-footer {
+      position: relative;
+      z-index: 2;
+      margin-top: 32px;
+      padding: 44px 0 34px;
+      background: linear-gradient(180deg, rgba(1, 20, 48, 0.72) 0%, rgba(0, 10, 28, 0.94) 100%);
+      backdrop-filter: blur(22px);
+      border-top: 1px solid rgba(126, 235, 255, 0.16);
+    }
+
+    .footer-disclaimer {
+      border-radius: var(--radius-md);
+      background: rgba(155, 24, 34, 0.22);
+      border: 1px solid rgba(255, 130, 124, 0.36);
+      padding: 18px 22px;
+      margin-bottom: 34px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .footer-disclaimer svg {
+      width: 20px;
+      height: 20px;
+      color: #FCA5A5;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .footer-disclaimer strong {
+      display: block;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #FFD2CF;
+      margin-bottom: 3px;
+    }
+
+    .footer-disclaimer p {
+      font-size: 0.88rem;
+      color: #F4E9EA;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr 1.1fr;
+      gap: 34px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(126, 235, 255, 0.12);
+    }
+
+    .footer-col h4, .footer-col h5 {
+      font-family: var(--font-display);
+      color: #FFFFFF;
+      margin-bottom: 14px;
+    }
+
+    .footer-col h5 {
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--hero-cyan-soft);
+    }
+
+    .footer-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      font-size: 0.87rem;
+      color: var(--text-secondary);
+    }
+
+    .footer-list a {
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-list a:hover {
+      color: var(--hero-cyan-soft);
+    }
+
+    .footer-bottom {
+      padding-top: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(3, 32, 66, 0.96);
+      border: 1px solid rgba(126, 235, 255, 0.42);
+      color: #FFFFFF;
+      padding: 11px 20px;
+      border-radius: var(--radius-pill);
+      font-size: 0.86rem;
+      font-weight: 600;
+      box-shadow: 0 14px 32px rgba(0, 6, 20, 0.72);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1200;
+      transition: opacity 0.25s ease, transform 0.25s var(--ease-out);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .mesh-orb, .depth-ring, .hero-3d-frame { animation: none !important; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 1100px) {
+      .span-3, .span-4, .span-5, .span-6, .span-7, .span-8 {
+        grid-column: span 6;
+      }
+      .service-bento-card,
+      .service-bento-card.featured-bento {
+        grid-column: span 6;
+      }
+      .doctor-bento-card {
+        grid-column: span 6;
+      }
+      .composer-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 880px) {
+      .main-nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(1, 20, 48, 0.96);
+        backdrop-filter: blur(22px);
+        border-bottom: 1px solid rgba(126, 235, 255, 0.2);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 14px 20px 20px;
+        gap: 6px;
+        display: none;
+      }
+      .main-nav.open { display: flex; }
+      .mobile-menu-btn { display: inline-flex; }
+      .header-deploy-label { display: none; }
+      .header-deploy-btn { padding: 6px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-command-dock { margin-top: 16px; }
+    }
+
+    @media (max-width: 680px) {
+      .emergency-bar { font-size: 0.74rem; padding: 7px 0; }
+      .nav-wrapper { gap: 8px; min-height: 66px; }
+      .brand-mini-emblem { width: 38px; height: 38px; }
+      .brand-title { font-size: 0.86rem; }
+      .brand-subtitle { font-size: 0.63rem; }
+
+      .span-3, .span-4, .span-5, .span-6, .span-7, .span-8, .span-12,
+      .service-bento-card, .service-bento-card.featured-bento, .doctor-bento-card {
+        grid-column: span 12;
+      }
+
+      .bento-kpi-row,
+      .composer-fields,
+      .channels-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-float-hud {
+        position: static;
+        transform: none;
+        margin-top: 12px;
+      }
+
+      .neu-btn {
+        white-space: normal;
+        text-align: center;
+      }
+
+      .composer-layout > * {
+        min-width: 0;
+      }
+
+      .deploy-fab-label {
+        display: none;
+      }
+
+      .deploy-fab {
+        padding: 7px 11px 7px 7px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ==========================================================================
+       UNIVERSO DE FONDO: GRADIENT MESH DEL HERO EN DEGRADACIÓN + CAPAS PARALLAX
+       ========================================================================== -->
+  <div class="parallax-universe" aria-hidden="true">
+    <div class="bg-parallax-layer" data-parallax-speed="0.06">
+      <div class="mesh-orb mesh-orb-1"></div>
+      <div class="mesh-orb mesh-orb-2"></div>
+    </div>
+    <div class="bg-parallax-layer" data-parallax-speed="0.13">
+      <div class="mesh-orb mesh-orb-3"></div>
+      <div class="mesh-orb mesh-orb-4"></div>
+    </div>
+    <div class="bg-parallax-layer" data-parallax-speed="0.20">
+      <div class="mesh-depth-plane"></div>
+    </div>
+    <div class="bg-parallax-layer" data-parallax-speed="0.28">
+      <div class="depth-ring depth-ring-1"></div>
+      <div class="depth-ring depth-ring-2"></div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       CABECERA STICKY: AVISO NORMATIVO + NAVEGACIÓN GLASS + BOTÓN MINI LOGO
+       ========================================================================== -->
+  <div class="site-chrome">
+    <div class="emergency-bar" role="alert" aria-label="Aviso importante de emergencias médicas">
+      <div class="container emergency-inner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span>
+          <strong>AVISO IMPORTANTE:</strong> Para emergencias médicas, acuda inmediatamente al hospital más cercano o llame a las autoridades locales. Estos canales son solo para información y citas.
+        </span>
+      </div>
+    </div>
+
+    <header class="site-header" id="siteHeader">
+      <div class="container nav-wrapper">
+        <a href="#inicio" class="brand-logo" aria-label="Servicio Médico Juan Pablo II">
+          <span class="brand-mini-emblem">
+            <img src="assets/logo-mini-jpii.webp" alt="Logo Servicio Médico Juan Pablo II" width="44" height="44">
+          </span>
+          <span class="brand-text">
+            <span class="brand-title">Servicio Médico Juan Pablo II</span>
+            <span class="brand-subtitle">Ejido &middot; Mérida &middot; Venezuela</span>
+          </span>
+        </a>
+
+        <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+          <a href="#inicio" class="active">Inicio</a>
+          <a href="#panel-clinico">Panel</a>
+          <a href="#servicios">Especialidades</a>
+          <a href="#diagnostico">Diagnóstico</a>
+          <a href="#equipo">Especialistas</a>
+          <a href="#horarios">Horarios</a>
+        </nav>
+
+        <div class="header-actions">
+          <button type="button" class="neu-btn neu-btn-accent header-deploy-btn" id="headerDeployBtn" aria-label="Desplegar accesos rápidos de Servicio Médico Juan Pablo II">
+            <span class="mini-logo-chip">
+              <img src="assets/logo-mini-jpii.webp" alt="" width="28" height="28">
+            </span>
+            <span class="header-deploy-label">Desplegar Citas</span>
+          </button>
+
+          <button type="button" class="neu-btn mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <line x1="4" y1="7" x2="20" y2="7"/>
+              <line x1="4" y1="12" x2="20" y2="12"/>
+              <line x1="4" y1="17" x2="20" y2="17"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <main>
+    <!-- ==========================================================================
+         HERO 3D PARALLAX MULTICAPA CON HERO_JPII.jfif
+         ========================================================================== -->
+    <section class="hero-section" id="inicio">
+      <div class="container">
+        <div class="hero-stage-shell" id="heroStage">
+          <div class="hero-bg-aura" id="heroAura"></div>
+
+          <div class="hero-3d-frame" id="hero3DCard">
+            <div class="hero-image-clip">
+              <img
+                src="assets/hero-jpii.webp"
+                alt="Servicio Médico Juan Pablo II — Cuidado médico con vocación humana en Ejido, Mérida"
+                class="hero-artwork"
+                id="heroArtwork"
+                width="1024"
+                height="571"
+                loading="eager"
+              >
+              <div class="hero-specular" id="heroSpecular" aria-hidden="true"></div>
+              <div class="hero-vignette" aria-hidden="true"></div>
+
+              <!-- Hotspot interactivo sobre el botón "Agendar Cita" de la imagen -->
+              <a href="#agendar" class="hero-cta-hotspot" aria-label="Ir al asistente de agendamiento de citas"></a>
+            </div>
+
+            <!-- Capa flotante 3D Glassmorphism con estado en vivo -->
+            <div class="hero-float-hud status-open" id="heroStatusHud" aria-live="polite">
+              <span class="status-dot" aria-hidden="true"></span>
+              <div class="hud-copy">
+                <strong id="liveStatusTitle">Atención Médica Integral</strong>
+                <span class="tabular" id="liveStatusSubtitle">Lun–Vie: 7:00 a.m.–12:00 m. y 2:00–6:00 p.m.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dock Glassmorphism + Botones Neumorphism suaves del color del Hero -->
+        <div class="hero-command-dock">
+          <div class="dock-identity">
+            <div>
+              <h1>Servicio Médico Juan Pablo II &middot; Ejido, Mérida</h1>
+              <p>12 especialidades médicas, Rayos X digitales y laboratorio clínico con atención confidencial.</p>
+            </div>
+          </div>
+
+          <div class="dock-actions">
+            <a href="#agendar" class="neu-btn neu-btn-accent">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Agendar Cita
+            </a>
+            <a href="https://wa.me/584247225404?text=Hola%20Servicio%20M%C3%A9dico%20Juan%20Pablo%20II%2C%20deseo%20informaci%C3%B3n%20y%20agendar%20una%20cita." target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-wa">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              WhatsApp Directo
+            </a>
+            <a href="tel:02742219492" class="neu-btn tabular">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              0274-2219492
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         DASHBOARD 1: BENTO GRID OPERATIVO Y NORMATIVO (GLASSMORPHISM)
+         ========================================================================== -->
+    <section class="dashboard-section" id="panel-clinico">
+      <div class="container">
+        <div class="bento-grid-12">
+          <!-- Bento A: Estado en vivo + KPIs -->
+          <article class="bento-card span-7">
+            <span class="bento-label">Panel Operativo en Vivo &middot; Ejido, Mérida</span>
+            <h2 style="font-family: var(--font-display); font-size: 1.45rem; color: #FFFFFF; margin-bottom: 6px;">Atención Integral y Diagnóstico en Sede</h2>
+            <p style="font-size: 0.9rem; color: var(--text-secondary);">
+              Consultas médicas especializadas, radiología digital y laboratorio clínico coordinados bajo un mismo techo para las familias del Municipio Campo Elías y Mérida.
+            </p>
+
+            <div class="bento-kpi-row">
+              <div class="kpi-tile">
+                <strong class="tabular">12</strong>
+                <span>Especialidades y unidades clínicas</span>
+              </div>
+              <div class="kpi-tile">
+                <strong>RX + Lab</strong>
+                <span>Estudios digitales en la misma sede</span>
+              </div>
+              <div class="kpi-tile">
+                <strong class="tabular">2 Turnos</strong>
+                <span>Lun–Vie · 7–12 m. y 2–6 p.m.</span>
+              </div>
+            </div>
+
+            <div class="shift-meter">
+              <div class="shift-meter-top">
+                <span id="dashShiftLabel" style="color: #FFFFFF;">Jornada laboral Venezuela (UTC-4)</span>
+                <span class="tabular" id="veClockBadge" style="color: var(--hero-cyan-soft);">Hora local Ejido</span>
+              </div>
+              <div class="shift-bar-track">
+                <div class="shift-bar-fill" id="shiftProgressBar"></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bento B: Privacidad Clínica Normativa -->
+          <article class="bento-card span-5" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="privacy-bento-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <span class="bento-label">Cumplimiento Normativo</span>
+              <h3 style="font-family: var(--font-display); font-size: 1.24rem; color: #FFFFFF; margin-bottom: 10px;">Cero Almacenamiento de Datos Clínicos</h3>
+              <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.62;">
+                Este portal estático no recopila ni almacena historiales médicos en servidores públicos. Toda solicitud de citas se gestiona en tiempo real mediante WhatsApp Business encriptado de extremo a extremo.
+              </p>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+              <a href="#agendar" class="neu-btn neu-btn-sm neu-btn-accent">Abrir Canal Seguro</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-copy="+58 424-7225404">Copiar WhatsApp</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         DASHBOARD 2: BENTO GRID DE LAS 12 ESPECIALIDADES (GLASSMORPHISM + FILTROS)
+         ========================================================================== -->
+    <section class="dashboard-section" id="servicios">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Dashboard de Cartera Médica</p>
+            <h2 class="section-title">Especialidades y Servicios de Diagnóstico</h2>
+            <p class="section-subtitle">
+              Filtre por área clínica o busque su especialidad para consultar disponibilidad directa por WhatsApp.
+            </p>
+          </div>
+          <span class="tabular" id="specialtyCounter" style="font-size: 0.85rem; font-weight: 700; color: var(--hero-cyan-soft);">Mostrando 12 de 12 servicios</span>
+        </div>
+
+        <div class="glass-toolbar" role="region" aria-label="Filtros de especialidades">
+          <div class="filter-group" role="tablist" aria-label="Categorías clínicas">
+            <button type="button" class="neu-btn neu-btn-sm active" data-filter="all" role="tab" aria-selected="true">Todas (12)</button>
+            <button type="button" class="neu-btn neu-btn-sm" data-filter="diagnostico" role="tab" aria-selected="false">Diagnóstico y Base</button>
+            <button type="button" class="neu-btn neu-btn-sm" data-filter="familia" role="tab" aria-selected="false">Familia y Bienestar</button>
+            <button type="button" class="neu-btn neu-btn-sm" data-filter="especialidades" role="tab" aria-selected="false">Especialidades Clínicas</button>
+          </div>
+
+          <div class="glass-search">
+            <label for="specialtySearch" class="sr-only">Buscar especialidad</label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="specialtySearch" placeholder="Buscar especialidad o estudio..." autocomplete="off">
+          </div>
+        </div>
+
+        <div class="services-bento" id="servicesGrid">
+          <!-- 1. Consultas Especializadas (Featured Bento Span 6) -->
+          <article class="bento-card service-bento-card featured-bento" data-category="diagnostico" data-name="Consultas Especializadas" data-keywords="evaluacion medica consulta general diagnostico tratamiento">
+            <div class="service-head-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+              </span>
+              <span class="service-cat-tag">Atención Base</span>
+            </div>
+            <h3>Consultas Especializadas</h3>
+            <p>Evaluación médica exhaustiva y planes de tratamiento individualizados según las necesidades específicas de cada paciente.</p>
+            <div class="service-bento-footer">
+              <a href="https://wa.me/584247225404?text=Hola%2C%20solicito%20informaci%C3%B3n%20sobre%20Consultas%20Especializadas." class="service-direct-link" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp &rarr;</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-choose="Consultas Especializadas">Elegir para cita</button>
+            </div>
+          </article>
+
+          <!-- 2. Rayos X y Laboratorio (Featured Bento Span 6) -->
+          <article class="bento-card service-bento-card featured-bento" data-category="diagnostico" data-name="Rayos X y Laboratorio" data-keywords="radiologia radiografia imagenologia examenes sangre orina analisis clinico">
+            <div class="service-head-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6.5L4.5 19A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-3L14 9.5V3"/><path d="M7.5 15h9"/></svg>
+              </span>
+              <span class="service-cat-tag">Diagnóstico Digital</span>
+            </div>
+            <h3>Rayos X y Laboratorio</h3>
+            <p>Estudios radiológicos digitales de alta definición y análisis de laboratorio clínico confiables para diagnósticos oportunos.</p>
+            <div class="service-bento-footer">
+              <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20informaci%C3%B3n%20sobre%20Rayos%20X%20y%20Laboratorio." class="service-direct-link" target="_blank" rel="noopener noreferrer">Consultar estudios &rarr;</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-choose="Rayos X y Laboratorio">Elegir para cita</button>
+            </div>
+          </article>
+
+          <!-- 3. Ginecología y Obstetricia -->
+          <article class="bento-card service-bento-card" data-category="familia" data-name="Ginecología y Obstetricia" data-keywords="mujer embarazo control prenatal citologia ecografia obstetra">
+            <div class="service-head-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="M12 14.5V22"/><path d="M9 18.5h6"/></svg>
+              </span>
+              <span class="service-cat-tag">Salud Femenina</span>
+            </div>
+            <h3>Ginecología y Obstetricia</h3>
+            <p>Cuidado de la salud integral de la mujer, control prenatal, citologías, ecografías y prevención ginecológica.</p>
+            <div class="service-bento-footer">
+              <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20agendar%20cita%20con%20Ginecolog%C3%ADa." class="service-direct-link" target="_blank" rel="noopener noreferrer">Agendar &rarr;</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-choose="Ginecología y Obstetricia">Elegir</button>
+            </div>
+          </article>
+
+          <!-- 4. Pediatría -->
+          <article class="bento-card service-bento-card" data-category="familia" data-name="Pediatría" data-keywords="ninos bebes control nino sano vacunacion puericultura adolescentes">
+            <div class="service-head-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 10h.01"/><path d="M15 10h.01"/><path d="M9.5 14.5a3.5 3.5 0 0 0 5 0"/></svg>
+              </span>
+              <span class="service-cat-tag">Salud Infantil</span>
+            </div>
+            <h3>Pediatría</h3>
+            <p>Control de niño sano, vacunación, evaluación del desarrollo y atención médica pediátrica desde el nacimiento hasta la adolescencia.</p>
+            <div class="service-bento-footer">
+              <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20agendar%20cita%20de%20Pediatr%C3%ADa." class="service-direct-link" target="_blank" rel="noopener noreferrer">Agendar &rarr;</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-choose="Pediatría">Elegir</button>
+            </div>
+          </article>
+
+          <!-- 5. Traumatología y Ortopedia -->
+          <article class="bento-card service-bento-card" data-category="especialidades" data-name="Traumatología y Ortopedia" data-keywords="huesos fracturas rodilla columna articulaciones lesiones musculares">
+            <div class="service-head-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .81.7 1.8 0 2.5l-7 7c-.7.7-1.69 0-2.5 0a2.5 2.5 0 0 0 0 5c.28 0 .5.22.5.5a2.5 2.5 0 1 0 5 0c0-.81-.7-1.8 0-2.5Z"/></svg>
+              </span>
+              <span class="service-cat-tag">Locomotor</span>
+            </div>
+            <h3>Traumatología y Ortopedia</h3>
+            <p>Diagnóstico y tratamiento de lesiones óseas, articulares, musculares, fracturas y afecciones del sistema locomotor.</p>
+            <div class="service-bento-footer">
+              <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20cita%20para%20Traumatolog%C3%ADa." class="service-direct-link" target="_blank" rel="noopener noreferrer">Agendar &rarr;</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-choose="Traumatología y Ortopedia">Elegir</button>
+            </div>
+          </article>
+
+          <!-- 6. Psiquiatría y Psicología -->
+          <article class="bento-card service-bento-card" data-category="familia" data-name="Psiquiatría y Psicología" data-keywords="salud mental ansiedad depresion terapia psicologica emocional">
+            <div class="service-head-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M12 5v13"/></svg>
+              </span>
+              <span class="service-cat-tag">Salud Mental</span>
+            </div>
+            <h3>Psiquiatría y Psicología</h3>
+            <p>Apoyo a la salud mental y emocional, terapia psicológica individual, manejo de ansiedad, depresión y orientación clínica.</p>
+            <div class="service-bento-footer">
+              <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20informaci%C3%B3n%20sobre%20Psiquiatr%C3%ADa%20y%20Psicolog%C3%ADa." class="service-direct-link" target="_blank" rel="noopener noreferrer">Agendar &rarr;</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-choose="Psiquiatría y Psicología">Elegir</button>
+            </div>
+          </article>
+
+          <!-- 7. Cardiología -->
+          <article class="bento-card service-bento-card" data-category="especialidades" data-name="Cardiología" data-keywords="corazon hipertension tension arterial electrocardiograma cardiovascular">
+            <div class="service-head-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M7.5 11.5h2l1.2-2.2 1.8 4 1.3-1.8H16"/></svg>
+              </span>
+              <span class="service-cat-tag">Cardiovascular</span>
+            </div>
+            <h3>Cardiología</h3>
+            <p>Prevención, diagnóstico y tratamiento de patologías cardiovasculares, hipertensión arterial y electrocardiogramas.</p>
+            <div class="service-bento-footer">
+              <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20agendar%20cita%20de%20Cardiolog%C3%ADa." class="service-direct-link" target="_blank" rel="noopener noreferrer">Agendar &rarr;</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-choose="Cardiología">Elegir</button>
+            </div>
+          </article>
+
+          <!-- 8. Neumología -->
+          <article class="bento-card service-bento-card" data-category="especialidades" data-name="Neumología" data-keywords="pulmones respiratorio asma epoc alergias tos">
+            <div class="service-head-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9"/><path d="M12 10c-2 0-4 1.5-5 4-1.2 2.8-1 6 1.5 6 2 0 3.5-1.5 3.5-4"/><path d="M12 10c2 0 4 1.5 5 4 1.2 2.8 1 6-1.5 6-2 0-3.5-1.5-3.5-4"/></svg>
+              </span>
+              <span class="service-cat-tag">Respiratorio</span>
+            </div>
+            <h3>Neumología</h3>
+            <p>Atención especializada de enfermedades respiratorias, asma, EPOC, alergias respiratorias y evaluación pulmonar integral.</p>
+            <div class="service-bento-footer">
+              <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20cita%20con%20Neumolog%C3%ADa." class="service-direct-link" target="_blank" rel="noopener noreferrer">Agendar &rarr;</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-choose="Neumología">Elegir</button>
+            </div>
+          </article>
+
+          <!-- 9. Nefrología -->
+          <article class="bento-card service-bento-card featured-bento" data-category="especialidades" data-name="Nefrología" data-keywords="rinones renal litiasis calculos nefropatias">
+            <div class="service-head-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7c-3.5 4.4-7 7.9-7 11.8a7 7 0 0 0 14 0c0-3.9-3.5-7.4-7-11.8z"/><path d="M9.5 14.5a2.8 2.8 0 0 0 2.5 2.5"/></svg>
+              </span>
+              <span class="service-cat-tag">Salud Renal</span>
+            </div>
+            <h3>Nefrología</h3>
+            <p>Cuidado de la función renal, prevención del daño renal crónico, control de litiasis y manejo integral de nefropatías.</p>
+            <div class="service-bento-footer">
+              <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20informaci%C3%B3n%20sobre%20Nefrolog%C3%ADa." class="service-direct-link" target="_blank" rel="noopener noreferrer">Agendar &rarr;</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-choose="Nefrología">Elegir</button>
+            </div>
+          </article>
+
+          <!-- 10. Fisiatría -->
+          <article class="bento-card service-bento-card featured-bento" data-category="especialidades" data-name="Fisiatría" data-keywords="rehabilitacion medicina fisica fisioterapia dolor cronico recuperacion motora">
+            <div class="service-head-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="5" r="2"/><path d="m9 20 2-6 3 2v4"/><path d="m6 13 3-3 3 1 3-2 3 2"/></svg>
+              </span>
+              <span class="service-cat-tag">Rehabilitación</span>
+            </div>
+            <h3>Fisiatría</h3>
+            <p>Medicina física y rehabilitación funcional para recuperación motora tras cirugías, dolor crónico o lesiones físicas.</p>
+            <div class="service-bento-footer">
+              <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20agendar%20cita%20con%20Fisiatr%C3%ADa." class="service-direct-link" target="_blank" rel="noopener noreferrer">Agendar &rarr;</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-choose="Fisiatría">Elegir</button>
+            </div>
+          </article>
+
+          <!-- 11. Urología -->
+          <article class="bento-card service-bento-card featured-bento" data-category="especialidades" data-name="Urología" data-keywords="tracto urinario prostata chequeo masculino vias urinarias">
+            <div class="service-head-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v6"/><path d="M9 11h6"/></svg>
+              </span>
+              <span class="service-cat-tag">Urológica</span>
+            </div>
+            <h3>Urología</h3>
+            <p>Salud del tracto urinario y sistema reproductor masculino, chequeo prostático preventivo y tratamiento urológico.</p>
+            <div class="service-bento-footer">
+              <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20agendar%20cita%20de%20Urolog%C3%ADa." class="service-direct-link" target="_blank" rel="noopener noreferrer">Agendar &rarr;</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-choose="Urología">Elegir</button>
+            </div>
+          </article>
+
+          <!-- 12. Medicina Interna -->
+          <article class="bento-card service-bento-card featured-bento" data-category="diagnostico" data-name="Medicina Interna" data-keywords="adulto diabetes hipertension enfermedades cronicas chequeo integral">
+            <div class="service-head-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="16" height="18" x="4" y="4" rx="2"/><path d="M12 10v6"/><path d="M9 13h6"/></svg>
+              </span>
+              <span class="service-cat-tag">Atención Base</span>
+            </div>
+            <h3>Medicina Interna</h3>
+            <p>Manejo clínico global del paciente adulto, control de enfermedades crónicas como diabetes e hipertensión arterial.</p>
+            <div class="service-bento-footer">
+              <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20cita%20con%20Medicina%20Interna." class="service-direct-link" target="_blank" rel="noopener noreferrer">Agendar &rarr;</a>
+              <button type="button" class="neu-btn neu-btn-sm" data-choose="Medicina Interna">Elegir</button>
+            </div>
+          </article>
+        </div>
+
+        <div class="bento-card empty-state" id="emptySearchState">
+          <p style="color: var(--text-secondary); margin-bottom: 16px;">No encontramos coincidencias exactas. Restablezca el filtro o consúltenos por WhatsApp.</p>
+          <button type="button" class="neu-btn neu-btn-sm neu-btn-accent" id="resetFiltersBtn">Ver todas las especialidades</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         DASHBOARD 3: BENTO GRID DE DIAGNÓSTICO Y PREPARACIÓN DEL PACIENTE
+         ========================================================================== -->
+    <section class="dashboard-section" id="diagnostico">
+      <div class="container">
+        <div class="bento-grid-12">
+          <article class="bento-card span-6">
+            <span class="bento-label">Unidad de Diagnóstico en Sede</span>
+            <h2 style="font-family: var(--font-display); font-size: 1.55rem; color: #FFFFFF; margin-bottom: 14px;">Rayos X Digitales y Laboratorio Clínico</h2>
+            <div class="diag-photo-wrap">
+              <img src="assets/diagnostico-lab.webp" alt="Unidad de Rayos X y Laboratorio Clínico — Servicio Médico Juan Pablo II" width="1200" height="669">
+            </div>
+            <div class="diag-pill-row">
+              <span class="diag-chip">Radiología Digital</span>
+              <span class="diag-chip">Análisis Clínicos</span>
+              <span class="diag-chip">Turno Mañana y Tarde</span>
+              <span class="diag-chip">Resultados Confiables</span>
+            </div>
+          </article>
+
+          <article class="bento-card span-6">
+            <span class="bento-label">Guía Interactiva del Paciente</span>
+            <h2 style="font-family: var(--font-display); font-size: 1.55rem; color: #FFFFFF; margin-bottom: 8px;">Preparación antes de su visita</h2>
+            <p style="font-size: 0.9rem; color: var(--text-secondary);">
+              Revise estas recomendaciones generales para agilizar sus exámenes de laboratorio, estudios de Rayos X y consultas médicas.
+            </p>
+
+            <div class="prep-accordion">
+              <div class="prep-item" data-open="true">
+                <button type="button" class="prep-trigger" aria-expanded="true">
+                  <span>Preparación para análisis de laboratorio</span>
+                  <svg class="prep-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="prep-panel">
+                  <div class="prep-panel-inner">
+                    <p>Para exámenes que requieran ayuno, acuda en el turno de la mañana (desde las 7:00 a.m.) con 8 a 12 horas sin alimentos sólidos, hidratación moderada con agua y su orden médica.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="prep-item" data-open="false">
+                <button type="button" class="prep-trigger" aria-expanded="false">
+                  <span>Indicaciones para estudios de Rayos X</span>
+                  <svg class="prep-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="prep-panel">
+                  <div class="prep-panel-inner">
+                    <p>Use ropa cómoda sin piezas metálicas en la zona a estudiar. Informe al técnico si existe posibilidad de embarazo y traiga radiografías previas si dispone de ellas.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="prep-item" data-open="false">
+                <button type="button" class="prep-trigger" aria-expanded="false">
+                  <span>Qué llevar a su consulta especializada</span>
+                  <svg class="prep-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="prep-panel">
+                  <div class="prep-panel-inner">
+                    <p>Preséntese 15 minutos antes de su cita con documento de identidad, órdenes médicas, estudios recientes y lista de medicamentos actuales.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         DASHBOARD 4: BENTO GRID DEL CUERPO MÉDICO ESPECIALIZADO
+         ========================================================================== -->
+    <section class="dashboard-section" id="equipo">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Dashboard de Staff Profesional</p>
+            <h2 class="section-title">Nuestro Cuerpo Médico Especializado</h2>
+            <p class="section-subtitle">
+              Especialistas comprometidos con la ética clínica, el diagnóstico preciso y la calidez humana en Ejido, Mérida.
+            </p>
+          </div>
+          <a href="#agendar" class="neu-btn neu-btn-sm">Consultar disponibilidad</a>
+        </div>
+
+        <div class="bento-grid-12">
+          <article class="bento-card doctor-bento-card">
+            <div class="doctor-badge-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+              </span>
+              <span class="doctor-index">01</span>
+            </div>
+            <span class="doctor-sub">Medicina Interna</span>
+            <h3>Especialistas en Medicina Interna</h3>
+            <p>Evaluación integral y seguimiento continuo de patologías complejas y enfermedades crónicas del adulto.</p>
+            <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20consultar%20disponibilidad%20con%20el%20especialista%20en%20Medicina%20Interna." target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-sm">Solicitar Cita</a>
+          </article>
+
+          <article class="bento-card doctor-bento-card">
+            <div class="doctor-badge-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M9 10h.01"/><path d="M15 10h.01"/><path d="M9.5 14.5a3.5 3.5 0 0 0 5 0"/></svg>
+              </span>
+              <span class="doctor-index">02</span>
+            </div>
+            <span class="doctor-sub">Pediatría y Puericultura</span>
+            <h3>Especialistas en Pediatría</h3>
+            <p>Atención pediátrica con empatía, control de crecimiento, vacunación y prevención infantil.</p>
+            <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20consultar%20disponibilidad%20con%20el%20especialista%20en%20Pediatr%C3%ADa." target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-sm">Solicitar Cita</a>
+          </article>
+
+          <article class="bento-card doctor-bento-card">
+            <div class="doctor-badge-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              </span>
+              <span class="doctor-index">03</span>
+            </div>
+            <span class="doctor-sub">Cardiología Clínica</span>
+            <h3>Especialistas en Cardiología</h3>
+            <p>Evaluación cardiológica preventiva, electrocardiografía y control cardiovascular especializado.</p>
+            <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20consultar%20disponibilidad%20con%20el%20especialista%20en%20Cardiolog%C3%ADa." target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-sm">Solicitar Cita</a>
+          </article>
+
+          <article class="bento-card doctor-bento-card">
+            <div class="doctor-badge-row">
+              <span class="service-icon-orb" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .81.7 1.8 0 2.5l-7 7c-.7.7-1.69 0-2.5 0a2.5 2.5 0 0 0 0 5c.28 0 .5.22.5.5a2.5 2.5 0 1 0 5 0c0-.81-.7-1.8 0-2.5Z"/></svg>
+              </span>
+              <span class="doctor-index">04</span>
+            </div>
+            <span class="doctor-sub">Traumatología y Ortopedia</span>
+            <h3>Especialistas en Traumatología</h3>
+            <p>Manejo especializado de lesiones musculoesqueléticas, fracturas y rehabilitación articular.</p>
+            <a href="https://wa.me/584247225404?text=Hola%2C%20deseo%20consultar%20disponibilidad%20con%20el%20especialista%20en%20Traumatolog%C3%ADa." target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-sm">Solicitar Cita</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         DASHBOARD 5: ASISTENTE PRIVADO DE AGENDAMIENTO (GLASSMORPHISM + NEUMORPHISM)
+         ========================================================================== -->
+    <section class="dashboard-section" id="agendar">
+      <div class="container">
+        <div class="bento-card composer-bento">
+          <div class="composer-layout">
+            <div>
+              <p class="section-kicker">Canal Seguro de Citas</p>
+              <h2 class="section-title">Solicite su cita en segundos</h2>
+              <p class="section-subtitle">
+                Configure su especialidad, turno y día preferido. El mensaje se genera localmente en su dispositivo y abre WhatsApp Business directamente sin almacenar ningún dato en servidores.
+              </p>
+              <ul class="guarantees-list">
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+                  Cero almacenamiento de datos personales o clínicos
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+                  Encriptado extremo a extremo vía WhatsApp Business
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+                  Confirmación rápida de horarios y tarifas vigentes
+                </li>
+              </ul>
+            </div>
+
+            <div class="composer-form-glass">
+              <div class="composer-fields">
+                <div class="field-group full">
+                  <label for="citaEspecialidad">Especialidad o estudio</label>
+                  <select id="citaEspecialidad" class="neu-select">
+                    <option value="Consultas Especializadas">Consultas Especializadas</option>
+                    <option value="Rayos X y Laboratorio">Rayos X y Laboratorio</option>
+                    <option value="Ginecología y Obstetricia">Ginecología y Obstetricia</option>
+                    <option value="Pediatría">Pediatría</option>
+                    <option value="Traumatología y Ortopedia">Traumatología y Ortopedia</option>
+                    <option value="Psiquiatría y Psicología">Psiquiatría y Psicología</option>
+                    <option value="Cardiología">Cardiología</option>
+                    <option value="Neumología">Neumología</option>
+                    <option value="Nefrología">Nefrología</option>
+                    <option value="Fisiatría">Fisiatría</option>
+                    <option value="Urología">Urología</option>
+                    <option value="Medicina Interna">Medicina Interna</option>
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label for="citaTurno">Turno preferido</label>
+                  <select id="citaTurno" class="neu-select">
+                    <option value="en el turno de la mañana (07:00 a.m. - 12:00 m.)">Mañana (7:00 a.m. – 12:00 m.)</option>
+                    <option value="en el turno de la tarde (02:00 p.m. - 06:00 p.m.)">Tarde (2:00 p.m. – 6:00 p.m.)</option>
+                    <option value="en el próximo turno disponible">Cualquier turno disponible</option>
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label for="citaDia">Día deseado</label>
+                  <select id="citaDia" class="neu-select">
+                    <option value="lo antes posible">Lo antes posible</option>
+                    <option value="el día lunes">Lunes</option>
+                    <option value="el día martes">Martes</option>
+                    <option value="el día miércoles">Miércoles</option>
+                    <option value="el día jueves">Jueves</option>
+                    <option value="el día viernes">Viernes</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="wa-preview-card">
+                <small>Vista previa del mensaje (solo en su dispositivo)</small>
+                <p id="waPreviewText">Hola Servicio Médico Juan Pablo II, deseo consultar disponibilidad y tarifas para Consultas Especializadas, preferiblemente lo antes posible, en el turno de la mañana (07:00 a.m. - 12:00 m.).</p>
+              </div>
+
+              <div class="composer-cta-row">
+                <a href="https://wa.me/584247225404" id="waSendBtn" target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-wa neu-btn-lg">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  Enviar por WhatsApp (+58 424-7225404)
+                </a>
+                <a href="mailto:serv.med.juanjuanpablo2@gmail.com?subject=Solicitud%20de%20cita%20-%20Servicio%20M%C3%A9dico%20Juan%20Pablo%20II" class="neu-btn neu-btn-lg">
+                  Correo
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         DASHBOARD 6: BENTO GRID DE HORARIOS, UBICACIÓN Y CONTACTO
+         ========================================================================== -->
+    <section class="dashboard-section" id="horarios">
+      <div class="container">
+        <div class="bento-grid-12">
+          <!-- Horarios -->
+          <article class="bento-card span-5" style="display: flex; flex-direction: column;">
+            <span class="bento-label">Disponibilidad Semanal</span>
+            <h2 style="font-family: var(--font-display); font-size: 1.48rem; color: #FFFFFF;">Horarios de Atención</h2>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 6px;">
+              Atendemos de lunes a viernes en dos turnos cómodos para consultas, Rayos X y laboratorio:
+            </p>
+
+            <div class="schedule-stack">
+              <div class="schedule-row" id="shiftMorning">
+                <strong>Lunes a Viernes &middot; Mañana</strong>
+                <span class="tabular">07:00 a.m. – 12:00 m.</span>
+              </div>
+              <div class="schedule-row" id="shiftAfternoon">
+                <strong>Lunes a Viernes &middot; Tarde</strong>
+                <span class="tabular">02:00 p.m. – 06:00 p.m.</span>
+              </div>
+              <div class="schedule-row closed-row">
+                <strong>Sábados y Domingos</strong>
+                <span>Cerrado (Solo citas programadas)</span>
+              </div>
+            </div>
+
+            <div style="margin-top: auto; padding: 14px 16px; border-radius: var(--radius-sm); background: rgba(1, 20, 48, 0.5); border-left: 3px solid var(--hero-cyan); font-size: 0.85rem; color: var(--text-secondary);">
+              <strong style="color: #FFFFFF;">Nota:</strong> Preséntese 15 minutos antes de su cita con documento de identidad y órdenes médicas previas.
+            </div>
+          </article>
+
+          <!-- Ubicación y Canales -->
+          <article class="bento-card span-7" id="contacto">
+            <span class="bento-label">Sede y Canales Directos</span>
+            <h2 style="font-family: var(--font-display); font-size: 1.48rem; color: #FFFFFF;">Ubicación en Ejido, Estado Mérida</h2>
+
+            <div class="map-bento-frame" aria-label="Mapa de ubicación en Ejido, Mérida">
+              <div id="ejidoLeafletMap" class="leaflet-ejido-layer" aria-label="Mapa interactivo OpenStreetMap de Ejido, Mérida"></div>
+              <svg viewBox="0 0 640 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <defs>
+                  <radialGradient id="mapGlow" cx="52%" cy="46%" r="55%">
+                    <stop offset="0%" stop-color="#0B6E9B" stop-opacity="0.55"/>
+                    <stop offset="100%" stop-color="#011534" stop-opacity="1"/>
+                  </radialGradient>
+                </defs>
+                <rect width="640" height="240" fill="url(#mapGlow)"/>
+                <path d="M-20 50 C140 20, 260 95, 410 55 C520 28, 590 60, 660 40" fill="none" stroke="rgba(126,235,255,0.16)" stroke-width="1.5"/>
+                <path d="M-20 110 C150 85, 290 140, 430 105 C530 85, 590 120, 660 95" fill="none" stroke="rgba(126,235,255,0.12)" stroke-width="1.2"/>
+                <path d="M0 165 L640 120" stroke="rgba(126,235,255,0.22)" stroke-width="9" stroke-linecap="round"/>
+                <path d="M210 0 L265 240" stroke="rgba(126,235,255,0.18)" stroke-width="7" stroke-linecap="round"/>
+                <path d="M430 0 L390 240" stroke="rgba(126,235,255,0.12)" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="328" cy="102" r="34" fill="#1EE3FF" fill-opacity="0.16"/>
+                <circle cx="328" cy="102" r="15" fill="#1EE3FF"/>
+                <path d="M326.2 96.5h3.6v3.7h3.7v3.6h-3.7v3.7h-3.6v-3.7h-3.7v-3.6h3.7v-3.7z" fill="#001533"/>
+              </svg>
+              <div class="map-glass-bar">
+                <div>
+                  <strong>Servicio Médico Juan Pablo II</strong>
+                  <span>Ejido, Municipio Campo Elías &middot; Estado Mérida, Venezuela</span>
+                </div>
+                <a href="https://maps.google.com/?q=Servicio+Medico+Juan+Pablo+II+Ejido+Merida+Venezuela" target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-sm neu-btn-accent">
+                  Google Maps
+                </a>
+              </div>
+            </div>
+
+            <div class="channels-grid">
+              <div class="channel-glass-tile">
+                <a href="tel:02742219492" class="channel-meta" style="text-decoration: none;">
+                  <small>Teléfono Fijo</small>
+                  <strong class="tabular">0274-2219492</strong>
+                </a>
+                <button type="button" class="neu-btn neu-btn-icon" data-copy="0274-2219492" aria-label="Copiar teléfono fijo" title="Copiar">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+
+              <div class="channel-glass-tile">
+                <a href="https://wa.me/584247225404" target="_blank" rel="noopener noreferrer" class="channel-meta" style="text-decoration: none;">
+                  <small>WhatsApp Business</small>
+                  <strong class="tabular">+58 424-7225404</strong>
+                </a>
+                <button type="button" class="neu-btn neu-btn-icon" data-copy="+58 424-7225404" aria-label="Copiar WhatsApp" title="Copiar">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+
+              <a href="https://instagram.com/clinicajuanpablo2do" target="_blank" rel="noopener noreferrer" class="channel-glass-tile">
+                <span class="channel-meta">
+                  <small>Instagram</small>
+                  <strong>@clinicajuanpablo2do</strong>
+                </span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--hero-cyan-soft); flex-shrink: 0;"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              </a>
+
+              <a href="mailto:serv.med.juanjuanpablo2@gmail.com" class="channel-glass-tile">
+                <span class="channel-meta">
+                  <small>Correo Electrónico</small>
+                  <strong>serv.med.juanjuanpablo2@gmail.com</strong>
+                </span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--hero-cyan-soft); flex-shrink: 0;"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       PIE DE PÁGINA INSTITUCIONAL + DESCARGO DE EMERGENCIAS OBLIGATORIO
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-disclaimer" role="note" aria-label="Descargo de responsabilidad médica">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div>
+          <strong>Descargo de responsabilidad médica y emergencias</strong>
+          <p>Para emergencias médicas, acuda inmediatamente al hospital más cercano o llame a las autoridades locales. Estos canales son solo para información y citas.</p>
+        </div>
+      </div>
+
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <span class="brand-mini-emblem" style="width: 38px; height: 38px;">
+              <img src="assets/logo-mini-jpii.webp" alt="Logo Servicio Médico Juan Pablo II" width="38" height="38">
+            </span>
+            <h4 style="margin: 0;">Servicio Médico Juan Pablo II</h4>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); max-width: 38ch;">
+            Cuidado médico con vocación humana: consultas especializadas, Rayos X digitales y laboratorio clínico en Ejido, Estado Mérida, Venezuela.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Especialidades</h5>
+          <ul class="footer-list">
+            <li><a href="#servicios">Consultas Especializadas · Rayos X y Lab</a></li>
+            <li><a href="#servicios">Ginecología · Pediatría · Medicina Interna</a></li>
+            <li><a href="#servicios">Traumatología · Fisiatría · Urología</a></li>
+            <li><a href="#servicios">Cardiología · Neumología · Nefrología</a></li>
+            <li><a href="#servicios">Psiquiatría y Psicología</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Canales Oficiales</h5>
+          <ul class="footer-list">
+            <li>Ejido, Estado Mérida, Venezuela</li>
+            <li><a href="tel:02742219492" class="tabular">Tel: 0274-2219492</a></li>
+            <li><a href="https://wa.me/584247225404" target="_blank" rel="noopener noreferrer" class="tabular">WhatsApp: +58 424-7225404</a></li>
+            <li><a href="mailto:serv.med.juanjuanpablo2@gmail.com">serv.med.juanjuanpablo2@gmail.com</a></li>
+            <li><a href="https://instagram.com/clinicajuanpablo2do" target="_blank" rel="noopener noreferrer">@clinicajuanpablo2do</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Servicio Médico Juan Pablo II. Todos los derechos reservados.</span>
+        <span>Portal web estático y normativo &middot; Cero almacenamiento de datos médicos.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       BOTÓN DE DESPLIEGUE CON VERSIÓN MINI DEL LOGO EXTRAÍDO DEL HERO
+       ========================================================================== -->
+  <div class="deploy-launcher-wrap" id="deployLauncher">
+    <div class="deploy-drawer" id="deployDrawer" role="menu" aria-label="Menú rápido de despliegue">
+      <div class="deploy-drawer-head">
+        <span class="deploy-fab-logo" style="width: 38px; height: 38px;">
+          <img src="assets/logo-mini-jpii.webp" alt="Mini Logo Juan Pablo II" width="38" height="38">
+        </span>
+        <div>
+          <strong>Servicio Médico Juan Pablo II</strong>
+          <span>Accesos rápidos &middot; Ejido, Mérida</span>
+        </div>
+      </div>
+
+      <div class="deploy-menu-list">
+        <a href="https://wa.me/584247225404?text=Hola%20Servicio%20M%C3%A9dico%20Juan%20Pablo%20II%2C%20deseo%20agendar%20una%20cita." target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-wa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          Agendar por WhatsApp
+        </a>
+        <a href="#agendar" class="neu-btn neu-btn-accent deploy-close-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Asistente de Cita Privada
+        </a>
+        <a href="tel:02742219492" class="neu-btn tabular">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Llamar 0274-2219492
+        </a>
+        <a href="#servicios" class="neu-btn deploy-close-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          Ver 12 Especialidades
+        </a>
+        <a href="#horarios" class="neu-btn deploy-close-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          Horarios y Mapa Ejido
+        </a>
+      </div>
+    </div>
+
+    <button type="button" class="deploy-fab" id="deployFab" aria-expanded="false" aria-controls="deployDrawer" aria-label="Desplegar menú rápido Servicio Médico Juan Pablo II">
+      <span class="deploy-fab-logo">
+        <img src="assets/logo-mini-jpii.webp" alt="Mini logo Servicio Médico Juan Pablo II" width="42" height="42">
+      </span>
+      <span class="deploy-fab-label">Menú Clínico</span>
+      <svg class="deploy-fab-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const WA_NUMBER = '584247225404';
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* 1. SCROLL SUAVE INERCIAL (LENIS) + PARALLAX MULTICAPA CON LERP + ANIMACIÓN 3D */
+      const bgLayers = Array.from(document.querySelectorAll('.bg-parallax-layer'));
+      const heroStage = document.getElementById('heroStage');
+      const heroCard = document.getElementById('hero3DCard');
+      const heroArtwork = document.getElementById('heroArtwork');
+      const heroAura = document.getElementById('heroAura');
+      const heroSpecular = document.getElementById('heroSpecular');
+
+      let targetMX = 0, targetMY = 0;
+      let curMX = 0, curMY = 0;
+      let targetScroll = window.scrollY;
+      let curScroll = window.scrollY;
+      let lenisInstance = null;
+
+      window.addEventListener('load', () => {
+        /* Inicializar Lenis (darkroomengineering/lenis · MIT) si cargó en entorno online */
+        if (!prefersReduced && typeof window.Lenis === 'function') {
+          try {
+            lenisInstance = new window.Lenis({
+              duration: 1.05,
+              easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+              smoothWheel: true
+            });
+            lenisInstance.on('scroll', ({ scroll }) => {
+              targetScroll = scroll;
+              updateHeaderScroll();
+            });
+          } catch (_) { lenisInstance = null; }
+        }
+
+        /* Inicializar Mapa Interactivo Gratuito Leaflet + OpenStreetMap (Leaflet/Leaflet · BSD-2) */
+        const mapEl = document.getElementById('ejidoLeafletMap');
+        if (mapEl && typeof window.L !== 'undefined') {
+          try {
+            const ejidoCoords = [8.5467, -71.2414];
+            const map = window.L.map(mapEl, {
+              center: ejidoCoords,
+              zoom: 15,
+              scrollWheelZoom: false,
+              zoomControl: true
+            });
+            window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              maxZoom: 19,
+              attribution: '&copy; OpenStreetMap'
+            }).addTo(map);
+            const brandImgSrc = document.querySelector('.brand-mini-emblem img')?.src || '';
+            const pinHtml = `<div style="width:40px;height:40px;border-radius:50%;padding:2px;background:linear-gradient(145deg,#1EE3FF,#FF574A);box-shadow:0 0 18px rgba(30,227,255,0.65);"><img src="${brandImgSrc}" alt="Servicio Médico Juan Pablo II" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"></div>`;
+            const clinicIcon = window.L.divIcon({
+              html: pinHtml,
+              className: 'jpii-leaflet-pin',
+              iconSize: [40, 40],
+              iconAnchor: [20, 20]
+            });
+            window.L.marker(ejidoCoords, { icon: clinicIcon })
+              .addTo(map)
+              .bindPopup('<strong>Servicio Médico Juan Pablo II</strong><br>Ejido, Municipio Campo Elías, Mérida');
+          } catch (_) { /* Conserva automáticamente el mapa vectorial SVG */ }
+        }
+      });
+
+      const tickMotion = (time) => {
+        if (lenisInstance) lenisInstance.raf(time);
+        if (!prefersReduced) {
+          curMX += (targetMX - curMX) * 0.08;
+          curMY += (targetMY - curMY) * 0.08;
+          curScroll += (targetScroll - curScroll) * 0.12;
+
+          bgLayers.forEach((layer) => {
+            const speed = parseFloat(layer.dataset.parallaxSpeed || '0.1');
+            const yOffset = -curScroll * speed * 0.42;
+            const mx = curMX * speed * 92;
+            const my = curMY * speed * 72;
+            layer.style.transform = `translate3d(${mx.toFixed(2)}px, ${(yOffset + my).toFixed(2)}px, 0)`;
+          });
+
+          if (heroAura) {
+            const ay = -curScroll * 0.08 + curMY * 24;
+            const ax = curMX * 28;
+            heroAura.style.transform = `translate3d(${ax.toFixed(2)}px, ${ay.toFixed(2)}px, -40px)`;
+          }
+        }
+        requestAnimationFrame(tickMotion);
+      };
+      if (!prefersReduced) requestAnimationFrame(tickMotion);
+
+      window.addEventListener('scroll', () => {
+        targetScroll = window.scrollY;
+        updateHeaderScroll();
+      }, { passive: true });
+
+      window.addEventListener('pointermove', (e) => {
+        if (prefersReduced) return;
+        targetMX = (e.clientX / window.innerWidth) - 0.5;
+        targetMY = (e.clientY / window.innerHeight) - 0.5;
+      }, { passive: true });
+
+      if (heroStage && heroCard && !prefersReduced) {
+        heroStage.addEventListener('pointermove', (e) => {
+          const rect = heroCard.getBoundingClientRect();
+          const px = (e.clientX - rect.left) / rect.width;
+          const py = (e.clientY - rect.top) / rect.height;
+          if (px < -0.1 || px > 1.1 || py < -0.1 || py > 1.1) return;
+
+          heroCard.classList.add('interacting');
+          const rotY = (px - 0.5) * 9.5;
+          const rotX = (0.5 - py) * 7.5;
+          heroCard.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(10px)`;
+
+          if (heroArtwork) {
+            const tx = (0.5 - px) * 14;
+            const ty = (0.5 - py) * 10;
+            heroArtwork.style.transform = `scale(1.045) translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0)`;
+          }
+          if (heroSpecular) {
+            heroSpecular.style.setProperty('--mx', `${(px * 100).toFixed(1)}%`);
+            heroSpecular.style.setProperty('--my', `${(py * 100).toFixed(1)}%`);
+          }
+        });
+
+        heroStage.addEventListener('pointerleave', () => {
+          heroCard.classList.remove('interacting');
+          heroCard.style.transform = '';
+          if (heroArtwork) heroArtwork.style.transform = 'scale(1.03)';
+        });
+      }
+
+      /* Micro-inclinación 3D sutil estilo Vanilla-Tilt en tarjetas Bento Glass (solo puntero fino) */
+      if (!prefersReduced && window.matchMedia('(pointer: fine)').matches) {
+        document.querySelectorAll('.service-bento-card, .doctor-bento-card').forEach(card => {
+          card.addEventListener('pointermove', (e) => {
+            const r = card.getBoundingClientRect();
+            const rx = (0.5 - (e.clientY - r.top) / r.height) * 5;
+            const ry = ((e.clientX - r.left) / r.width - 0.5) * 5;
+            card.style.transform = `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-4px)`;
+          });
+          card.addEventListener('pointerleave', () => {
+            card.style.transform = '';
+          });
+        });
+      }
+
+      /* 2. CABECERA, MENÚ MÓVIL Y BOTÓN DE DESPLIEGUE CON MINI LOGO */
+      const siteHeader = document.getElementById('siteHeader');
+      const mobileBtn = document.getElementById('mobileMenuBtn');
+      const mainNav = document.getElementById('mainNav');
+      const navSections = document.querySelectorAll('main section[id]');
+
+      const updateHeaderScroll = () => {
+        if (siteHeader) siteHeader.classList.toggle('scrolled', window.scrollY > 14);
+        const y = window.scrollY + 160;
+        navSections.forEach(sec => {
+          const link = document.querySelector(`.main-nav a[href="#${sec.id}"]`);
+          if (!link) return;
+          const active = y >= sec.offsetTop && y < sec.offsetTop + sec.offsetHeight;
+          link.classList.toggle('active', active);
+        });
+      };
+      updateHeaderScroll();
+
+      if (mobileBtn && mainNav) {
+        const setNav = (open) => {
+          mainNav.classList.toggle('open', open);
+          mobileBtn.setAttribute('aria-expanded', String(open));
+        };
+        mobileBtn.addEventListener('click', () => setNav(!mainNav.classList.contains('open')));
+        mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setNav(false)));
+      }
+
+      const deployFab = document.getElementById('deployFab');
+      const headerDeployBtn = document.getElementById('headerDeployBtn');
+      const deployDrawer = document.getElementById('deployDrawer');
+
+      const setDeployOpen = (open) => {
+        if (!deployDrawer || !deployFab) return;
+        deployDrawer.classList.toggle('open', open);
+        deployFab.setAttribute('aria-expanded', String(open));
+      };
+
+      deployFab?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setDeployOpen(!deployDrawer.classList.contains('open'));
+      });
+
+      headerDeployBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setDeployOpen(!deployDrawer.classList.contains('open'));
+      });
+
+      document.querySelectorAll('.deploy-close-link').forEach(link => {
+        link.addEventListener('click', () => setDeployOpen(false));
+      });
+
+      document.addEventListener('click', (e) => {
+        if (deployDrawer?.classList.contains('open') && !e.target.closest('#deployLauncher') && !e.target.closest('#headerDeployBtn')) {
+          setDeployOpen(false);
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          setDeployOpen(false);
+          mainNav?.classList.remove('open');
+        }
+      });
+
+      /* 3. ESTADO EN VIVO SEGÚN HORA OFICIAL DE VENEZUELA (UTC-4) */
+      const updateVenezuelaStatus = () => {
+        const now = new Date();
+        const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+        const ve = new Date(utcMs - 4 * 3600000);
+        const day = ve.getDay();
+        const mins = ve.getHours() * 60 + ve.getMinutes();
+
+        const isWeekday = day >= 1 && day <= 5;
+        const inMorning = isWeekday && mins >= 420 && mins < 720;
+        const inBreak = isWeekday && mins >= 720 && mins < 840;
+        const inAfternoon = isWeekday && mins >= 840 && mins < 1080;
+
+        const hud = document.getElementById('heroStatusHud');
+        const title = document.getElementById('liveStatusTitle');
+        const sub = document.getElementById('liveStatusSubtitle');
+        const clockBadge = document.getElementById('veClockBadge');
+        const dashLabel = document.getElementById('dashShiftLabel');
+        const progressBar = document.getElementById('shiftProgressBar');
+        const shiftMorning = document.getElementById('shiftMorning');
+        const shiftAfternoon = document.getElementById('shiftAfternoon');
+
+        const hh = ve.getHours();
+        const mm = String(ve.getMinutes()).padStart(2, '0');
+        const ampm = hh >= 12 ? 'p.m.' : 'a.m.';
+        const h12 = hh % 12 || 12;
+        if (clockBadge) clockBadge.textContent = `Ejido ahora: ${h12}:${mm} ${ampm}`;
+
+        shiftMorning?.classList.toggle('active-shift', inMorning);
+        shiftAfternoon?.classList.toggle('active-shift', inAfternoon);
+
+        if (hud) hud.classList.remove('status-open', 'status-closed');
+
+        if (inMorning) {
+          hud?.classList.add('status-open');
+          if (title) title.textContent = 'Abierto ahora · Turno Mañana';
+          if (sub) sub.textContent = 'Atención continua hasta las 12:00 m.';
+          if (dashLabel) dashLabel.textContent = 'Turno Mañana activo (07:00 a.m. – 12:00 m.)';
+          if (progressBar) progressBar.style.width = `${Math.max(8, Math.min(100, ((mins - 420) / 300) * 100)).toFixed(0)}%`;
+        } else if (inAfternoon) {
+          hud?.classList.add('status-open');
+          if (title) title.textContent = 'Abierto ahora · Turno Tarde';
+          if (sub) sub.textContent = 'Atención continua hasta las 06:00 p.m.';
+          if (dashLabel) dashLabel.textContent = 'Turno Tarde activo (02:00 p.m. – 06:00 p.m.)';
+          if (progressBar) progressBar.style.width = `${Math.max(8, Math.min(100, ((mins - 840) / 240) * 100)).toFixed(0)}%`;
+        } else if (inBreak) {
+          hud?.classList.add('status-closed');
+          if (title) title.textContent = 'Receso de mediodía';
+          if (sub) sub.textContent = 'Reabrimos hoy a las 02:00 p.m.';
+          if (dashLabel) dashLabel.textContent = 'Receso de mediodía · Reapertura 02:00 p.m.';
+          if (progressBar) progressBar.style.width = '50%';
+        } else {
+          hud?.classList.add('status-closed');
+          if (title) title.textContent = 'Fuera de horario laboral';
+          if (sub) sub.textContent = 'Lun–Vie · 7:00 a.m.–12:00 m. y 2:00–6:00 p.m.';
+          if (dashLabel) dashLabel.textContent = 'Próxima jornada: Lunes a Viernes 07:00 a.m.';
+          if (progressBar) progressBar.style.width = '14%';
+        }
+      };
+      updateVenezuelaStatus();
+      setInterval(updateVenezuelaStatus, 60000);
+
+      /* 4. FILTROS Y BÚSQUEDA BENTO DE 12 ESPECIALIDADES */
+      const filterBtns = document.querySelectorAll('[data-filter]');
+      const searchInput = document.getElementById('specialtySearch');
+      const cards = Array.from(document.querySelectorAll('.service-bento-card'));
+      const counter = document.getElementById('specialtyCounter');
+      const emptyState = document.getElementById('emptySearchState');
+      const resetBtn = document.getElementById('resetFiltersBtn');
+      let currentCat = 'all';
+
+      const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      const applyFilters = () => {
+        const q = norm((searchInput?.value || '').trim());
+        let shown = 0;
+        cards.forEach(card => {
+          const catOk = currentCat === 'all' || card.dataset.category === currentCat;
+          const hay = norm(`${card.dataset.name} ${card.dataset.keywords} ${card.textContent}`);
+          const match = catOk && (!q || hay.includes(q));
+          card.classList.toggle('is-hidden', !match);
+          if (match) shown++;
+        });
+        if (counter) counter.textContent = `Mostrando ${shown} de ${cards.length} servicios`;
+        emptyState?.classList.toggle('visible', shown === 0);
+      };
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+          currentCat = btn.dataset.filter || 'all';
+          applyFilters();
+        });
+      });
+
+      searchInput?.addEventListener('input', applyFilters);
+      resetBtn?.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        filterBtns[0]?.click();
+      });
+
+      /* 5. ACORDEÓN DE PREPARACIÓN DEL PACIENTE */
+      document.querySelectorAll('.prep-trigger').forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          const item = trigger.closest('.prep-item');
+          const willOpen = item.getAttribute('data-open') !== 'true';
+          document.querySelectorAll('.prep-item').forEach(other => {
+            other.setAttribute('data-open', 'false');
+            other.querySelector('.prep-trigger')?.setAttribute('aria-expanded', 'false');
+          });
+          if (willOpen) {
+            item.setAttribute('data-open', 'true');
+            trigger.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      /* 6. ASISTENTE PRIVADO DE CITAS WHATSAPP */
+      const selEsp = document.getElementById('citaEspecialidad');
+      const selTurno = document.getElementById('citaTurno');
+      const selDia = document.getElementById('citaDia');
+      const preview = document.getElementById('waPreviewText');
+      const waBtn = document.getElementById('waSendBtn');
+
+      const updateWa = () => {
+        if (!selEsp || !selTurno || !selDia || !preview || !waBtn) return;
+        const msg = `Hola Servicio Médico Juan Pablo II, deseo consultar disponibilidad y tarifas para ${selEsp.value}, preferiblemente ${selDia.value}, ${selTurno.value}.`;
+        preview.textContent = msg;
+        waBtn.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+      };
+
+      [selEsp, selTurno, selDia].forEach(el => el?.addEventListener('change', updateWa));
+      updateWa();
+
+      document.querySelectorAll('[data-choose]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const esp = btn.dataset.choose;
+          if (selEsp && esp) {
+            selEsp.value = esp;
+            updateWa();
+          }
+          document.getElementById('agendar')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          showToast(`Especialidad seleccionada: ${esp}`);
+        });
+      });
+
+      /* 7. COPIAR TELÉFONOS + TOAST */
+      const toast = document.getElementById('toast');
+      let toastTimer;
+      const showToast = (msg) => {
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+      };
+
+      document.querySelectorAll('[data-copy]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const val = btn.dataset.copy || '';
+          try {
+            await navigator.clipboard.writeText(val);
+            showToast(`Copiado: ${val}`);
+          } catch {
+            showToast(`Número: ${val}`);
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

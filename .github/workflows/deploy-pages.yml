@@ -1,0 +1,49 @@
+name: Deploy Portal Estático a GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Auditoría rápida de sintaxis y enlaces seguros
+        run: |
+          python3 -c "
+          import re
+          html = open('index.html', encoding='utf-8').read()
+          assert 'AVISO IMPORTANTE' in html, 'Falta aviso de emergencias'
+          assert '584247225404' in html, 'Falta WhatsApp oficial'
+          for m in re.finditer(r'<a\b[^>]*target=\"_blank\"[^>]*>', html):
+              assert 'noopener' in m.group(0), f'Enlace externo sin noopener: {m.group(0)}'
+          print('Auditoría pre-despliegue: OK')
+          "
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Empaquetar artefacto estático
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+
+      - name: Desplegar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
