@@ -1,18 +1,65 @@
 {
+  "id": "./app.html",
   "name": "Servicio Médico Juan Pablo II",
   "short_name": "SM Juan Pablo II",
-  "description": "Consultas especializadas, Rayos X digitales y laboratorio clínico en Ejido, Estado Mérida, Venezuela.",
+  "description": "App móvil oficial del Servicio Médico Juan Pablo II en Ejido, Mérida: 12 especialidades, Rayos X, laboratorio y citas seguras por WhatsApp.",
   "lang": "es-VE",
-  "start_url": "./index.html",
+  "dir": "ltr",
+  "start_url": "./app.html",
+  "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
   "background_color": "#000E2E",
   "theme_color": "#012248",
+  "categories": ["medical", "health"],
   "icons": [
     {
-      "src": "assets/logo-mini-jpii.png",
-      "sizes": "256x256",
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Agendar Cita",
+      "short_name": "Citas",
+      "description": "Preparar solicitud de cita por WhatsApp Business",
+      "url": "./app.html#citas",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "12 Especialidades",
+      "short_name": "Especialidades",
+      "description": "Explorar todas las especialidades médicas",
+      "url": "./app.html#especialidades",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Rayos X y Laboratorio",
+      "short_name": "Diagnóstico",
+      "description": "Ver preparación y estudios en sede",
+      "url": "./app.html#diagnostico",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

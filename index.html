@@ -8,6 +8,9 @@
   <meta name="author" content="Servicio Médico Juan Pablo II">
   <meta name="theme-color" content="#012248">
   <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SM Juan Pablo II">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_VE">
@@ -17,6 +20,7 @@
   <title>Servicio Médico Juan Pablo II | Ejido, Mérida</title>
 
   <link rel="icon" type="image/webp" href="assets/logo-mini-jpii.webp">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png">
   <link rel="manifest" href="manifest.webmanifest">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2818,6 +2822,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
           Ver 12 Especialidades
         </a>
+        <a href="app.html" class="neu-btn neu-btn-accent">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          Abrir App Móvil (Android / iOS)
+        </a>
         <a href="#horarios" class="neu-btn deploy-close-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
           Horarios y Mapa Ejido
@@ -2842,6 +2850,9 @@
     (() => {
       const WA_NUMBER = '584247225404';
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+        window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+      }
 
       /* 1. SCROLL SUAVE INERCIAL (LENIS) + PARALLAX MULTICAPA CON LERP + ANIMACIÓN 3D */
       const bgLayers = Array.from(document.querySelectorAll('.bg-parallax-layer'));

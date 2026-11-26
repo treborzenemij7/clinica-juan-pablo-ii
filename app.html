@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="App móvil del Servicio Médico Juan Pablo II en Ejido, Mérida: 12 especialidades, Rayos X, laboratorio y citas seguras por WhatsApp para Android y Apple iOS.">
+  <meta name="theme-color" content="#012248">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Meta tags nativos para Apple iOS (Safari Web App) y Android (Chrome WebAPK) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SM Juan Pablo II">
+  <meta name="format-detection" content="telephone=no">
+
+  <title>App Móvil | Servicio Médico Juan Pablo II</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       APP MÓVIL NATIVA PWA (ANDROID & APPLE iOS) — SERVICIO MÉDICO JUAN PABLO II
+       - Hero 3D Parallax + Giroscopio móvil
+       - Bento Grid Glassmorphism + Gradient Mesh del Hero
+       - Botones Neumorphism suaves en color del fondo del Hero (#062D55)
+       - Bottom Tab Bar nativa con Safe Areas (iPhone Notch/Home Bar & Android)
+       ========================================================================== */
+    :root {
+      --hero-void:      #000E2E;
+      --hero-deep:      #011C3F;
+      --hero-base:      #032952;
+      --hero-mid:       #01517B;
+      --hero-cyan:      #1EE3FF;
+      --hero-cyan-soft: #82EEFF;
+      --hero-coral:     #FF574A;
+      --hero-gold:      #F3CB7C;
+      --hero-emerald:   #22D38B;
+
+      /* Neumorphism suave del color del fondo del Hero */
+      --neu-hi:         #0B3F72;
+      --neu-lo:         #031C3A;
+      --neu-dark:       rgba(0, 7, 22, 0.80);
+      --neu-light:      rgba(56, 168, 224, 0.26);
+      --neu-rim:        rgba(130, 238, 255, 0.25);
+
+      /* Glassmorphism Bento */
+      --glass-bg:       linear-gradient(150deg, rgba(11, 56, 98, 0.56) 0%, rgba(2, 24, 54, 0.48) 100%);
+      --glass-strong:   linear-gradient(150deg, rgba(14, 68, 114, 0.72) 0%, rgba(3, 28, 60, 0.68) 100%);
+      --glass-border:   rgba(130, 238, 255, 0.20);
+      --glass-shadow:   0 14px 34px rgba(0, 6, 22, 0.50), inset 0 1px 0 rgba(200, 246, 255, 0.18);
+
+      --text-primary:   #F4FAFF;
+      --text-secondary: #B7D4E8;
+      --text-muted:     #82AAC7;
+
+      --safe-top:       env(safe-area-inset-top, 0px);
+      --safe-bottom:    env(safe-area-inset-bottom, 0px);
+
+      --font-sans: "Basis Grotesque Arabic", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Roboto", sans-serif;
+      --font-display: "Space Grotesk", "Plus Jakarta Sans", -apple-system, sans-serif;
+
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background-color: var(--hero-void);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior-y: contain;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; }
+    button { font-family: inherit; }
+    .tabular { font-variant-numeric: tabular-nums; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+    /* ==========================================================================
+       FONDO GRADIENT MESH ANIMADO EN DEGRADACIÓN DEL HERO
+       ========================================================================== */
+    .mesh-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 90% 65% at 15% 10%, rgba(1, 81, 123, 0.78) 0%, transparent 62%),
+        radial-gradient(ellipse 75% 55% at 88% 22%, rgba(30, 227, 255, 0.24) 0%, transparent 58%),
+        radial-gradient(ellipse 70% 55% at 25% 84%, rgba(255, 87, 74, 0.14) 0%, transparent 60%),
+        linear-gradient(170deg, #000F35 0%, #012248 42%, #013B64 72%, #001438 100%);
+    }
+
+    .mesh-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(66px);
+      opacity: 0.62;
+      animation: orbFloat 16s ease-in-out infinite alternate;
+    }
+
+    .mesh-orb-a {
+      width: 340px; height: 340px;
+      top: -80px; right: -80px;
+      background: radial-gradient(circle, rgba(30, 227, 255, 0.34), rgba(1, 81, 123, 0.22) 55%, transparent 75%);
+    }
+
+    .mesh-orb-b {
+      width: 300px; height: 300px;
+      bottom: 80px; left: -90px;
+      background: radial-gradient(circle, rgba(11, 110, 155, 0.55), rgba(255, 87, 74, 0.16) 60%, transparent 78%);
+      animation-delay: -6s;
+    }
+
+    @keyframes orbFloat {
+      from { transform: translate3d(0, 0, 0) scale(1); }
+      to   { transform: translate3d(18px, -22px, 0) scale(1.08); }
+    }
+
+    /* ==========================================================================
+       CONTENEDOR SHELL DE APLICACIÓN MÓVIL (FULLSCREEN EN TELÉFONO / MARCO EN PC)
+       ========================================================================== */
+    .app-viewport {
+      position: relative;
+      z-index: 2;
+      height: 100dvh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .app-shell {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(1, 24, 54, 0.42) 0%, rgba(0, 14, 42, 0.64) 100%);
+    }
+
+    /* En pantallas de escritorio/tablet se presenta como marco elegante de smartphone */
+    @media (min-width: 540px) {
+      .app-viewport {
+        padding: 18px;
+      }
+      .app-shell {
+        max-width: 430px;
+        height: min(880px, calc(100dvh - 36px));
+        border-radius: 38px;
+        border: 1.5px solid rgba(130, 238, 255, 0.28);
+        box-shadow:
+          0 34px 90px rgba(0, 5, 18, 0.84),
+          0 0 0 8px rgba(1, 22, 50, 0.55),
+          inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      }
+    }
+
+    /* ==========================================================================
+       BARRA SUPERIOR NATIVA (SAFE AREA TOP + MINI LOGO + INSTALAR APP)
+       ========================================================================== */
+    .app-topbar {
+      flex-shrink: 0;
+      padding: calc(10px + var(--safe-top)) 16px 10px;
+      background: rgba(1, 22, 50, 0.78);
+      backdrop-filter: blur(22px) saturate(160%);
+      -webkit-backdrop-filter: blur(22px) saturate(160%);
+      border-bottom: 1px solid rgba(130, 238, 255, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      z-index: 30;
+    }
+
+    .app-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .mini-emblem {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      padding: 2px;
+      background: linear-gradient(145deg, var(--hero-cyan), var(--hero-mid) 58%, var(--hero-coral));
+      box-shadow: 3px 4px 10px rgba(0, 6, 20, 0.72), 0 0 12px rgba(30, 227, 255, 0.25);
+      flex-shrink: 0;
+    }
+
+    .mini-emblem img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .app-brand-copy {
+      min-width: 0;
+    }
+
+    .app-brand-copy strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .app-status-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.69rem;
+      font-weight: 600;
+      color: var(--hero-cyan-soft);
+      margin-top: 2px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--hero-emerald);
+      box-shadow: 0 0 8px var(--hero-emerald);
+      flex-shrink: 0;
+    }
+
+    .status-dot.closed {
+      background: var(--hero-gold);
+      box-shadow: 0 0 6px var(--hero-gold);
+    }
+
+    /* Cinta compacta obligatoria de emergencias */
+    .emergency-strip {
+      flex-shrink: 0;
+      background: linear-gradient(90deg, rgba(145, 20, 30, 0.95), rgba(174, 28, 38, 0.95));
+      color: #FFFFFF;
+      font-size: 0.71rem;
+      line-height: 1.32;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255, 190, 190, 0.2);
+      z-index: 29;
+    }
+
+    .emergency-strip svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      color: #FFD2CF;
+    }
+
+    /* ==========================================================================
+       SISTEMA DE BOTONES NEUMORPHISM SUAVES (TONO DEL FONDO DEL HERO)
+       ========================================================================== */
+    .neu-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--neu-rim);
+      background: linear-gradient(145deg, var(--neu-hi) 0%, var(--neu-lo) 100%);
+      color: #FFFFFF;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow:
+        6px 7px 14px var(--neu-dark),
+        -4px -4px 11px var(--neu-light),
+        inset 1px 1px 1px rgba(180, 244, 255, 0.22);
+      transition: transform 0.18s var(--ease-out), box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .neu-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .neu-btn:active {
+      transform: scale(0.97);
+      box-shadow:
+        inset 5px 5px 11px rgba(0, 7, 22, 0.88),
+        inset -3px -3px 9px rgba(48, 168, 226, 0.22);
+    }
+
+    .neu-btn-accent {
+      background: linear-gradient(145deg, #0E6392 0%, #05325C 100%);
+      border-color: rgba(30, 227, 255, 0.48);
+    }
+
+    .neu-btn-wa {
+      background: linear-gradient(145deg, #0D6460 0%, #053344 100%);
+      border-color: rgba(34, 211, 139, 0.48);
+      color: #EEFFF8;
+    }
+
+    .neu-btn-xs {
+      padding: 7px 12px;
+      font-size: 0.75rem;
+    }
+
+    .neu-btn-full {
+      width: 100%;
+      padding: 13px 18px;
+      font-size: 0.9rem;
+    }
+
+    .neu-chip {
+      padding: 8px 14px;
+      font-size: 0.78rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .neu-chip.active {
+      background: linear-gradient(145deg, #031A36 0%, #0A3E70 100%);
+      border-color: rgba(30, 227, 255, 0.68);
+      color: var(--hero-cyan-soft);
+      box-shadow:
+        inset 4px 4px 10px rgba(0, 7, 22, 0.85),
+        inset -3px -3px 8px rgba(48, 168, 226, 0.24),
+        0 0 12px rgba(30, 227, 255, 0.18);
+    }
+
+    /* ==========================================================================
+       ÁREA SCROLLEABLE DE VISTAS DE LA APP (5 PANTALLAS)
+       ========================================================================== */
+    .app-scroller {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding: 14px 14px calc(104px + var(--safe-bottom));
+      scroll-behavior: smooth;
+    }
+
+    .app-view {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      animation: viewEnter 0.26s var(--ease-out) both;
+    }
+
+    .app-view.active {
+      display: flex;
+    }
+
+    @keyframes viewEnter {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Tarjeta Glassmorphism Bento móvil */
+    .bento {
+      position: relative;
+      border-radius: 22px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    .bento::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 65% at 10% 0%, rgba(30, 227, 255, 0.10) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .bento > * { position: relative; z-index: 1; }
+
+    .bento-kicker {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: var(--hero-cyan-soft);
+      margin-bottom: 6px;
+    }
+
+    .view-title {
+      font-family: var(--font-display);
+      font-size: 1.32rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .view-sub {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* ==========================================================================
+       VISTA 1: INICIO (HERO 3D PARALLAX MÓVIL + BENTO ACCIONES RÁPIDAS)
+       ========================================================================== */
+    .mobile-hero-stage {
+      perspective: 1100px;
+      transform-style: preserve-3d;
+    }
+
+    .mobile-hero-3d {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(130, 238, 255, 0.30);
+      box-shadow: 0 20px 44px rgba(0, 6, 22, 0.72);
+      aspect-ratio: 1024 / 571;
+      background: var(--hero-deep);
+      will-change: transform;
+      transition: transform 0.2s ease-out;
+    }
+
+    .mobile-hero-3d img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.03);
+    }
+
+    .mobile-hero-sheen {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle 240px at var(--mx, 65%) var(--my, 35%), rgba(130, 238, 255, 0.20), transparent 68%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .hero-hotspot {
+      position: absolute;
+      left: 6%;
+      bottom: 11%;
+      width: 24%;
+      height: 16%;
+      border-radius: 999px;
+      z-index: 3;
+    }
+
+    .quick-bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 11px;
+    }
+
+    .quick-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid var(--neu-rim);
+      background: linear-gradient(145deg, rgba(11, 63, 114, 0.85), rgba(3, 28, 58, 0.92));
+      color: #FFFFFF;
+      text-decoration: none;
+      text-align: left;
+      cursor: pointer;
+      box-shadow:
+        6px 7px 14px var(--neu-dark),
+        -3px -3px 10px var(--neu-light),
+        inset 1px 1px 1px rgba(180, 244, 255, 0.20);
+      transition: transform 0.18s var(--ease-out);
+    }
+
+    .quick-tile:active {
+      transform: scale(0.96);
+      box-shadow: inset 5px 5px 11px rgba(0, 7, 22, 0.85);
+    }
+
+    .quick-tile.wa-tile {
+      background: linear-gradient(145deg, rgba(13, 100, 96, 0.88), rgba(5, 51, 68, 0.94));
+      border-color: rgba(34, 211, 139, 0.42);
+    }
+
+    .quick-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: rgba(30, 227, 255, 0.14);
+      border: 1px solid rgba(130, 238, 255, 0.26);
+      display: grid;
+      place-items: center;
+      color: var(--hero-cyan-soft);
+    }
+
+    .wa-tile .quick-icon {
+      background: rgba(34, 211, 139, 0.16);
+      border-color: rgba(34, 211, 139, 0.36);
+      color: #8CF7CA;
+    }
+
+    .quick-tile strong {
+      display: block;
+      font-size: 0.86rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .quick-tile > div span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Medidor de turno en vivo */
+    .shift-bar-track {
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.09);
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .shift-bar-fill {
+      height: 100%;
+      width: 60%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--hero-cyan), var(--hero-emerald));
+      box-shadow: 0 0 12px rgba(30, 227, 255, 0.45);
+    }
+
+    /* Banner inteligente de instalación Android / Apple */
+    .install-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: linear-gradient(145deg, rgba(14, 76, 128, 0.68), rgba(3, 28, 60, 0.66));
+      border-color: rgba(30, 227, 255, 0.34);
+    }
+
+    /* ==========================================================================
+       VISTA 2: ESPECIALIDADES (BUSCADOR + CHIPS + BENTO 2 COLS + BOTTOM SHEET)
+       ========================================================================== */
+    .search-box {
+      position: relative;
+    }
+
+    .search-box svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 17px;
+      height: 17px;
+      color: var(--hero-cyan-soft);
+      pointer-events: none;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 14px 12px 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(130, 238, 255, 0.24);
+      background: rgba(1, 19, 44, 0.72);
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 0.88rem;
+      box-shadow: inset 4px 4px 10px rgba(0, 6, 20, 0.75);
+    }
+
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box input:focus { outline: none; border-color: var(--hero-cyan); }
+
+    .chips-rail {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 2px 6px;
+      scrollbar-width: none;
+    }
+    .chips-rail::-webkit-scrollbar { display: none; }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 11px;
+    }
+
+    .spec-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 14px;
+      border-radius: 20px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      color: #FFFFFF;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.18s var(--ease-out), border-color 0.2s ease;
+    }
+
+    .spec-tile:active { transform: scale(0.97); }
+    .spec-tile.is-hidden { display: none; }
+
+    .spec-tile.wide {
+      grid-column: span 2;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      background: var(--glass-strong);
+      border-color: rgba(130, 238, 255, 0.30);
+    }
+
+    .spec-tile-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #0A4678, #031E3E);
+      border: 1px solid rgba(130, 238, 255, 0.30);
+      color: var(--hero-cyan-soft);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .spec-tile h3 {
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1.22;
+      color: #FFFFFF;
+    }
+
+    .spec-tile small {
+      display: block;
+      font-size: 0.70rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* ==========================================================================
+       VISTA 3: ASISTENTE PRIVADO DE CITAS (SIN ALMACENAMIENTO)
+       ========================================================================== */
+    .field-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--hero-cyan-soft);
+      margin-bottom: 7px;
+    }
+
+    .neu-select {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(130, 238, 255, 0.26);
+      background: #042347;
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: inset 4px 4px 10px rgba(0, 7, 22, 0.75);
+    }
+
+    .pill-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .preview-bubble {
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(1, 22, 50, 0.74);
+      border: 1px solid rgba(130, 238, 255, 0.22);
+      font-size: 0.84rem;
+      color: #EAF6FF;
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       VISTA 4: DIAGNÓSTICO + CHECKLIST INTERACTIVO + STAFF
+       ========================================================================== */
+    .diag-img-card {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(130, 238, 255, 0.22);
+      margin: 10px 0 12px;
+    }
+
+    .diag-img-card img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+    }
+
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 13px;
+      border-radius: 14px;
+      background: rgba(1, 20, 48, 0.54);
+      border: 1px solid rgba(130, 238, 255, 0.16);
+      color: #FFFFFF;
+      font-size: 0.84rem;
+      text-align: left;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .check-item.checked {
+      background: rgba(11, 92, 90, 0.40);
+      border-color: rgba(34, 211, 139, 0.45);
+    }
+
+    .check-box {
+      width: 21px;
+      height: 21px;
+      border-radius: 7px;
+      border: 1.5px solid rgba(130, 238, 255, 0.48);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      color: transparent;
+      transition: all 0.2s ease;
+    }
+
+    .check-item.checked .check-box {
+      background: var(--hero-emerald);
+      border-color: var(--hero-emerald);
+      color: #002117;
+    }
+
+    .check-item.checked span:last-child {
+      text-decoration: line-through;
+      color: var(--text-secondary);
+    }
+
+    .staff-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .staff-mini-card {
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(1, 20, 48, 0.56);
+      border: 1px solid rgba(130, 238, 255, 0.16);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .staff-mini-card strong { font-size: 0.82rem; color: #FFFFFF; line-height: 1.25; }
+    .staff-mini-card span { font-size: 0.72rem; color: var(--hero-cyan-soft); }
+
+    /* ==========================================================================
+       VISTA 5: SEDE, HORARIOS, MAPA, CONTACTO E INSTALACIÓN
+       ========================================================================== */
+    .schedule-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 13px;
+      border-radius: 13px;
+      background: rgba(1, 20, 48, 0.54);
+      border: 1px solid rgba(130, 238, 255, 0.14);
+      font-size: 0.82rem;
+    }
+
+    .schedule-row.active-shift {
+      background: rgba(11, 92, 90, 0.42);
+      border-color: rgba(34, 211, 139, 0.46);
+    }
+
+    .map-card {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(130, 238, 255, 0.24);
+      min-height: 170px;
+      display: flex;
+      align-items: flex-end;
+      background: #011B3D;
+      margin: 10px 0 12px;
+    }
+
+    .map-card svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .map-bar {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      margin: 10px;
+      padding: 10px 12px;
+      border-radius: 13px;
+      background: rgba(2, 24, 54, 0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(130, 238, 255, 0.26);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 11px 13px;
+      border-radius: 14px;
+      background: rgba(1, 20, 48, 0.54);
+      border: 1px solid rgba(130, 238, 255, 0.16);
+      text-decoration: none;
+    }
+
+    .contact-row small { display: block; font-size: 0.67rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; }
+    .contact-row strong { display: block; font-size: 0.84rem; color: #FFFFFF; }
+
+    /* ==========================================================================
+       BARRA INFERIOR NATIVA (GLASSMORPHISM + BOTÓN CENTRAL CON MINI LOGO)
+       ========================================================================== */
+    .bottom-tabbar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      padding: 8px 8px calc(10px + var(--safe-bottom));
+      background: rgba(1, 20, 46, 0.88);
+      backdrop-filter: blur(26px) saturate(165%);
+      -webkit-backdrop-filter: blur(26px) saturate(165%);
+      border-top: 1px solid rgba(130, 238, 255, 0.20);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      align-items: end;
+      gap: 4px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 0;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 6px 2px;
+      font-size: 0.66rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.16s ease;
+    }
+
+    .tab-btn svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    .tab-btn.active {
+      color: var(--hero-cyan-soft);
+    }
+
+    .tab-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Botón central elevado con el Mini Logo extraído de Juan Pablo II */
+    .tab-btn-center {
+      position: relative;
+      margin-top: -26px;
+      color: #FFFFFF;
+    }
+
+    .center-logo-orb {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(145deg, var(--hero-cyan), #0A5D8F 55%, var(--hero-coral));
+      box-shadow:
+        0 10px 24px rgba(0, 6, 22, 0.85),
+        0 0 22px rgba(30, 227, 255, 0.34);
+      display: grid;
+      place-items: center;
+      transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease;
+    }
+
+    .tab-btn-center.active .center-logo-orb {
+      box-shadow:
+        0 10px 26px rgba(0, 6, 22, 0.9),
+        0 0 30px rgba(30, 227, 255, 0.58);
+      transform: translateY(-2px);
+    }
+
+    .center-logo-orb img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* ==========================================================================
+       BOTTOM SHEETS NATIVOS (DETALLE DE ESPECIALIDAD + GUÍA INSTALACIÓN iOS/ANDROID)
+       ========================================================================== */
+    .sheet-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 60;
+      background: rgba(0, 8, 24, 0.68);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: flex-end;
+    }
+
+    .sheet-backdrop.open {
+      display: flex;
+      animation: fadeSheetBg 0.2s ease both;
+    }
+
+    .bottom-sheet {
+      width: 100%;
+      max-height: 82%;
+      overflow-y: auto;
+      border-radius: 28px 28px 0 0;
+      background: linear-gradient(160deg, rgba(10, 52, 92, 0.96), rgba(1, 20, 46, 0.98));
+      border-top: 1px solid rgba(130, 238, 255, 0.36);
+      box-shadow: 0 -20px 50px rgba(0, 6, 22, 0.84);
+      padding: 12px 20px calc(24px + var(--safe-bottom));
+      animation: sheetSlideUp 0.26s var(--ease-out) both;
+    }
+
+    .sheet-handle {
+      width: 44px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.28);
+      margin: 0 auto 16px;
+    }
+
+    @keyframes fadeSheetBg { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes sheetSlideUp { from { transform: translateY(40px); opacity: 0.4; } to { transform: translateY(0); opacity: 1; } }
+
+    .toast {
+      position: absolute;
+      left: 50%;
+      bottom: calc(96px + var(--safe-bottom));
+      transform: translateX(-50%) translateY(14px);
+      background: rgba(2, 28, 60, 0.96);
+      border: 1px solid rgba(130, 238, 255, 0.44);
+      color: #FFFFFF;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 80;
+      transition: opacity 0.22s ease, transform 0.22s var(--ease-out);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mesh-orb { animation: none !important; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="mesh-backdrop" aria-hidden="true">
+    <div class="mesh-orb mesh-orb-a"></div>
+    <div class="mesh-orb mesh-orb-b"></div>
+  </div>
+
+  <div class="app-viewport">
+    <div class="app-shell" id="appShell">
+
+      <!-- BARRA SUPERIOR DE LA APP MÓVIL -->
+      <header class="app-topbar">
+        <div class="app-brand">
+          <span class="mini-emblem">
+            <img src="assets/logo-mini-jpii.webp" alt="Logo Servicio Médico Juan Pablo II" width="38" height="38">
+          </span>
+          <div class="app-brand-copy">
+            <strong>SM Juan Pablo II</strong>
+            <span class="app-status-inline">
+              <span class="status-dot" id="topStatusDot" aria-hidden="true"></span>
+              <span id="topStatusText">Ejido · Mérida</span>
+            </span>
+          </div>
+        </div>
+
+        <button type="button" class="neu-btn neu-btn-xs neu-btn-accent" id="openInstallBtn" aria-label="Instalar aplicación en Android o iPhone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Instalar App</span>
+        </button>
+      </header>
+
+      <!-- AVISO NORMATIVO DE EMERGENCIAS -->
+      <div class="emergency-strip" role="alert" aria-label="Aviso importante de emergencias médicas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span><strong>Emergencias:</strong> acuda al hospital más cercano. Esta app es solo para información y citas.</span>
+      </div>
+
+      <!-- CONTENIDO SCROLLEABLE DE LAS 5 VISTAS DE LA APP -->
+      <main class="app-scroller" id="appScroller">
+
+        <!-- ==================================================================
+             VISTA 1: INICIO
+             ================================================================== -->
+        <section class="app-view active" id="view-inicio" aria-label="Inicio">
+          <h1 class="sr-only">Aplicación Móvil Servicio Médico Juan Pablo II — Ejido, Mérida</h1>
+
+          <!-- Hero 3D Parallax táctil y con giroscopio -->
+          <div class="mobile-hero-stage" id="mobileHeroStage">
+            <div class="mobile-hero-3d" id="mobileHero3D">
+              <img src="assets/hero-jpii.webp" alt="Servicio Médico Juan Pablo II — Cuidado médico con vocación humana" width="1024" height="571">
+              <div class="mobile-hero-sheen" id="mobileHeroSheen" aria-hidden="true"></div>
+              <button type="button" class="hero-hotspot" style="background: transparent; border: 0; cursor: pointer;" data-go-tab="citas" aria-label="Agendar cita médica"></button>
+            </div>
+          </div>
+
+          <!-- Bento 2x2 de Accesos Rápidos Neumorphism -->
+          <div class="quick-bento-grid">
+            <a href="https://wa.me/584247225404?text=Hola%20Servicio%20M%C3%A9dico%20Juan%20Pablo%20II%2C%20deseo%20informaci%C3%B3n%20y%20agendar%20una%20cita." target="_blank" rel="noopener noreferrer" class="quick-tile wa-tile">
+              <span class="quick-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              </span>
+              <div>
+                <strong>WhatsApp Citas</strong>
+                <span class="tabular">+58 424-7225404</span>
+              </div>
+            </a>
+
+            <a href="tel:02742219492" class="quick-tile">
+              <span class="quick-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <div>
+                <strong>Llamar Sede</strong>
+                <span class="tabular">0274-2219492</span>
+              </div>
+            </a>
+
+            <button type="button" class="quick-tile" data-go-tab="especialidades">
+              <span class="quick-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+              </span>
+              <div>
+                <strong>12 Especialidades</strong>
+                <span>Ver directorio médico</span>
+              </div>
+            </button>
+
+            <button type="button" class="quick-tile" data-go-tab="diagnostico">
+              <span class="quick-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6"/><path d="M10 3v6.5L4.5 19A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-3L14 9.5V3"/><path d="M7.5 15h9"/></svg>
+              </span>
+              <div>
+                <strong>Rayos X y Lab</strong>
+                <span>Guía y checklist</span>
+              </div>
+            </button>
+          </div>
+
+          <!-- Bento de Jornada en Vivo (Hora Ejido UTC-4) -->
+          <article class="bento">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <span class="bento-kicker" style="margin: 0;">Jornada en Vivo · Ejido</span>
+              <span class="tabular" id="veClockMobile" style="font-size: 0.76rem; font-weight: 700; color: var(--hero-cyan-soft);">--:--</span>
+            </div>
+            <p id="shiftSummaryMobile" style="font-size: 0.88rem; font-weight: 700; color: #FFFFFF; margin-top: 6px;">Lunes a Viernes · 7:00 a.m.–12:00 m. y 2:00–6:00 p.m.</p>
+            <div class="shift-bar-track">
+              <div class="shift-bar-fill" id="shiftBarMobile"></div>
+            </div>
+          </article>
+
+          <!-- Banner de Instalación Android y Apple iOS -->
+          <article class="bento install-banner" id="homeInstallBanner">
+            <div style="min-width: 0;">
+              <span class="bento-kicker" style="margin-bottom: 3px;">Android &amp; Apple iOS</span>
+              <strong style="display: block; font-size: 0.88rem; color: #FFFFFF;">Instala esta App en tu teléfono</strong>
+              <span style="font-size: 0.74rem; color: var(--text-secondary);">Acceso desde pantalla de inicio y modo sin conexión.</span>
+            </div>
+            <button type="button" class="neu-btn neu-btn-xs neu-btn-accent" id="bannerInstallBtn" style="flex-shrink: 0;">Instalar</button>
+          </article>
+
+          <!-- Privacidad Clínica -->
+          <article class="bento" style="display: flex; gap: 12px; align-items: flex-start;">
+            <span class="quick-icon" style="flex-shrink: 0;" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            </span>
+            <div>
+              <strong style="display: block; font-size: 0.84rem; color: #FFFFFF; margin-bottom: 2px;">Privacidad Clínica Garantizada</strong>
+              <p style="font-size: 0.77rem; color: var(--text-secondary); line-height: 1.48;">
+                Cero almacenamiento de datos médicos en la web o en el teléfono. Todas las citas se coordinan directamente vía WhatsApp Business encriptado.
+              </p>
+            </div>
+          </article>
+        </section>
+
+        <!-- ==================================================================
+             VISTA 2: 12 ESPECIALIDADES (BENTO + BUSCADOR + BOTTOM SHEET)
+             ================================================================== -->
+        <section class="app-view" id="view-especialidades" aria-label="Especialidades médicas">
+          <div>
+            <span class="bento-kicker">Cartera Médica</span>
+            <h2 class="view-title">12 Especialidades y Diagnóstico</h2>
+            <p class="view-sub">Toca cualquier área para ver detalles o solicitar tu cita.</p>
+          </div>
+
+          <div class="search-box">
+            <label for="mobileSearch" class="sr-only">Buscar especialidad</label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="mobileSearch" placeholder="Buscar cardiología, rayos X, pediatría..." autocomplete="off">
+          </div>
+
+          <div class="chips-rail" role="tablist" aria-label="Filtrar especialidades">
+            <button type="button" class="neu-btn neu-chip active" data-mfilter="all" role="tab" aria-selected="true">Todas (12)</button>
+            <button type="button" class="neu-btn neu-chip" data-mfilter="diagnostico" role="tab" aria-selected="false">Base y Diagnóstico</button>
+            <button type="button" class="neu-btn neu-chip" data-mfilter="familia" role="tab" aria-selected="false">Familia</button>
+            <button type="button" class="neu-btn neu-chip" data-mfilter="especialidades" role="tab" aria-selected="false">Clínicas</button>
+          </div>
+
+          <div class="spec-grid" id="mobileSpecGrid"></div>
+        </section>
+
+        <!-- ==================================================================
+             VISTA 3 (BOTÓN CENTRAL MINI LOGO): ASISTENTE PRIVADO DE CITAS
+             ================================================================== -->
+        <section class="app-view" id="view-citas" aria-label="Agendar cita">
+          <div>
+            <span class="bento-kicker">Canal Seguro · Cero Almacenamiento</span>
+            <h2 class="view-title">Solicitar Cita por WhatsApp</h2>
+            <p class="view-sub">Elige especialidad, turno y día. Tu mensaje se arma solo en tu teléfono.</p>
+          </div>
+
+          <div class="bento" style="display: flex; flex-direction: column; gap: 15px;">
+            <div>
+              <label for="appSpecSelect" class="field-label">1. Especialidad o estudio</label>
+              <select id="appSpecSelect" class="neu-select"></select>
+            </div>
+
+            <div>
+              <span class="field-label">2. Turno preferido</span>
+              <div class="pill-selector" id="turnoPills">
+                <button type="button" class="neu-btn neu-chip active" data-turno="en el turno de la mañana (07:00 a.m. - 12:00 m.)">Mañana (7–12)</button>
+                <button type="button" class="neu-btn neu-chip" data-turno="en el turno de la tarde (02:00 p.m. - 06:00 p.m.)">Tarde (2–6)</button>
+                <button type="button" class="neu-btn neu-chip" data-turno="en el próximo turno disponible">Cualquiera</button>
+              </div>
+            </div>
+
+            <div>
+              <span class="field-label">3. Día deseado</span>
+              <div class="pill-selector" id="diaPills">
+                <button type="button" class="neu-btn neu-chip active" data-dia="lo antes posible">Pronto</button>
+                <button type="button" class="neu-btn neu-chip" data-dia="el día lunes">Lun</button>
+                <button type="button" class="neu-btn neu-chip" data-dia="el día martes">Mar</button>
+                <button type="button" class="neu-btn neu-chip" data-dia="el día miércoles">Mié</button>
+                <button type="button" class="neu-btn neu-chip" data-dia="el día jueves">Jue</button>
+                <button type="button" class="neu-btn neu-chip" data-dia="el día viernes">Vie</button>
+              </div>
+            </div>
+
+            <div>
+              <span class="field-label">Vista previa del mensaje</span>
+              <div class="preview-bubble" id="appWaPreview"></div>
+            </div>
+
+            <a href="https://wa.me/584247225404" id="appWaSendBtn" target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-wa neu-btn-full">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              Abrir WhatsApp (+58 424-7225404)
+            </a>
+
+            <a href="mailto:serv.med.juanjuanpablo2@gmail.com?subject=Solicitud%20de%20cita%20-%20Servicio%20M%C3%A9dico%20Juan%20Pablo%20II" class="neu-btn neu-btn-full">
+              Enviar por Correo Electrónico
+            </a>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             VISTA 4: DIAGNÓSTICO + CHECKLIST INTERACTIVO + CUERPO MÉDICO
+             ================================================================== -->
+        <section class="app-view" id="view-diagnostico" aria-label="Diagnóstico y preparación">
+          <article class="bento">
+            <span class="bento-kicker">Unidad en Sede</span>
+            <h2 class="view-title">Rayos X y Laboratorio Clínico</h2>
+            <div class="diag-img-card">
+              <img src="assets/diagnostico-lab.webp" alt="Unidad de Rayos X digitales y laboratorio clínico" width="1200" height="669">
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-secondary);">
+              Estudios radiológicos digitales de alta precisión y análisis clínicos confiables en el mismo centro donde consultas con tu especialista.
+            </p>
+          </article>
+
+          <article class="bento">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <span class="bento-kicker" style="margin: 0;">Checklist antes de salir</span>
+              <span class="tabular" id="checkProgressLabel" style="font-size: 0.74rem; font-weight: 700; color: var(--hero-cyan-soft);">0 / 5 listos</span>
+            </div>
+            <div class="shift-bar-track" style="margin-top: 8px;">
+              <div class="shift-bar-fill" id="checkProgressBar" style="width: 0%;"></div>
+            </div>
+
+            <div class="checklist" id="prepChecklist">
+              <button type="button" class="check-item" aria-pressed="false"><span class="check-box">&#10003;</span><span>Ayuno de 8–12 h (si tu laboratorio lo requiere)</span></button>
+              <button type="button" class="check-item" aria-pressed="false"><span class="check-box">&#10003;</span><span>Cédula de identidad y orden médica</span></button>
+              <button type="button" class="check-item" aria-pressed="false"><span class="check-box">&#10003;</span><span>Ropa cómoda sin piezas metálicas (Rayos X)</span></button>
+              <button type="button" class="check-item" aria-pressed="false"><span class="check-box">&#10003;</span><span>Exámenes o informes médicos previos</span></button>
+              <button type="button" class="check-item" aria-pressed="false"><span class="check-box">&#10003;</span><span>Llegar 15 minutos antes de la cita</span></button>
+            </div>
+          </article>
+
+          <article class="bento">
+            <span class="bento-kicker">Cuerpo Médico Especializado</span>
+            <h3 style="font-family: var(--font-display); font-size: 1.05rem; color: #FFFFFF;">Unidades Destacadas</h3>
+            <div class="staff-mini-grid">
+              <div class="staff-mini-card">
+                <span>01 · Adultos</span>
+                <strong>Medicina Interna</strong>
+                <button type="button" class="neu-btn neu-btn-xs" data-book-spec="Medicina Interna">Solicitar</button>
+              </div>
+              <div class="staff-mini-card">
+                <span>02 · Infantil</span>
+                <strong>Pediatría</strong>
+                <button type="button" class="neu-btn neu-btn-xs" data-book-spec="Pediatría">Solicitar</button>
+              </div>
+              <div class="staff-mini-card">
+                <span>03 · Corazón</span>
+                <strong>Cardiología</strong>
+                <button type="button" class="neu-btn neu-btn-xs" data-book-spec="Cardiología">Solicitar</button>
+              </div>
+              <div class="staff-mini-card">
+                <span>04 · Locomotor</span>
+                <strong>Traumatología</strong>
+                <button type="button" class="neu-btn neu-btn-xs" data-book-spec="Traumatología y Ortopedia">Solicitar</button>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ==================================================================
+             VISTA 5: SEDE, HORARIOS, CONTACTO E INSTALACIÓN
+             ================================================================== -->
+        <section class="app-view" id="view-sede" aria-label="Sede, horarios y contacto">
+          <article class="bento">
+            <span class="bento-kicker">Horarios de Atención</span>
+            <h2 class="view-title" style="margin-bottom: 10px;">Ejido, Estado Mérida</h2>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div class="schedule-row" id="mShiftMorning">
+                <strong>Lun–Vie · Mañana</strong>
+                <span class="tabular" style="color: var(--hero-cyan-soft); font-weight: 700;">07:00 a.m. – 12:00 m.</span>
+              </div>
+              <div class="schedule-row" id="mShiftAfternoon">
+                <strong>Lun–Vie · Tarde</strong>
+                <span class="tabular" style="color: var(--hero-cyan-soft); font-weight: 700;">02:00 p.m. – 06:00 p.m.</span>
+              </div>
+              <div class="schedule-row">
+                <strong>Sáb y Dom</strong>
+                <span style="color: var(--text-muted);">Cerrado (Solo citas prog.)</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="bento">
+            <span class="bento-kicker">Cómo Llegar</span>
+            <strong style="font-size: 0.96rem; color: #FFFFFF;">Municipio Campo Elías · Mérida</strong>
+            <div class="map-card">
+              <svg viewBox="0 0 400 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <rect width="400" height="180" fill="#011B3D"/>
+                <path d="M-10 45 C100 20, 190 80, 310 45 C360 30, 390 45, 410 35" fill="none" stroke="rgba(130,238,255,0.16)" stroke-width="1.4"/>
+                <path d="M0 125 L400 95" stroke="rgba(130,238,255,0.22)" stroke-width="7"/>
+                <path d="M150 0 L195 180" stroke="rgba(130,238,255,0.16)" stroke-width="5"/>
+                <circle cx="205" cy="76" r="26" fill="#1EE3FF" fill-opacity="0.18"/>
+                <circle cx="205" cy="76" r="11" fill="#1EE3FF"/>
+                <path d="M203.6 71.8h2.8v2.8h2.8v2.8h-2.8v2.8h-2.8v-2.8h-2.8v-2.8h2.8v-2.8z" fill="#001533"/>
+              </svg>
+              <div class="map-bar">
+                <div>
+                  <strong style="display: block; font-size: 0.82rem; color: #FFFFFF;">Servicio Médico Juan Pablo II</strong>
+                  <span style="font-size: 0.71rem; color: var(--text-secondary);">Ejido · Mérida, Venezuela</span>
+                </div>
+                <a href="https://maps.google.com/?q=Servicio+Medico+Juan+Pablo+II+Ejido+Merida+Venezuela" target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-xs neu-btn-accent">Mapa</a>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 9px;">
+              <div class="contact-row">
+                <a href="tel:02742219492" style="text-decoration: none;">
+                  <small>Teléfono Fijo</small>
+                  <strong class="tabular">0274-2219492</strong>
+                </a>
+                <button type="button" class="neu-btn neu-btn-xs" data-copy="0274-2219492">Copiar</button>
+              </div>
+
+              <div class="contact-row">
+                <a href="https://wa.me/584247225404" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                  <small>WhatsApp Business</small>
+                  <strong class="tabular">+58 424-7225404</strong>
+                </a>
+                <button type="button" class="neu-btn neu-btn-xs" data-copy="+58 424-7225404">Copiar</button>
+              </div>
+
+              <a href="https://instagram.com/clinicajuanpablo2do" target="_blank" rel="noopener noreferrer" class="contact-row">
+                <div>
+                  <small>Instagram Oficial</small>
+                  <strong>@clinicajuanpablo2do</strong>
+                </div>
+                <span style="color: var(--hero-cyan-soft); font-size: 0.8rem; font-weight: 700;">Abrir &rarr;</span>
+              </a>
+
+              <a href="mailto:serv.med.juanjuanpablo2@gmail.com" class="contact-row">
+                <div style="min-width: 0;">
+                  <small>Correo Electrónico</small>
+                  <strong style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">serv.med.juanjuanpablo2@gmail.com</strong>
+                </div>
+              </a>
+            </div>
+          </article>
+
+          <article class="bento" style="display: flex; flex-direction: column; gap: 10px;">
+            <span class="bento-kicker" style="margin: 0;">App Móvil &amp; Portal Web</span>
+            <button type="button" class="neu-btn neu-btn-accent neu-btn-full" id="sedeInstallBtn">Ver guía de instalación (Android / Apple iOS)</button>
+            <a href="index.html" class="neu-btn neu-btn-full">Ir a la versión Web de Escritorio</a>
+          </article>
+
+          <div style="padding: 13px 14px; border-radius: 16px; background: rgba(155, 24, 34, 0.24); border: 1px solid rgba(255, 130, 124, 0.36); font-size: 0.76rem; color: #F5E8E8; line-height: 1.48;">
+            <strong style="display: block; color: #FFD2CF; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.05em;">Descargo de responsabilidad médica</strong>
+            Para emergencias médicas, acuda inmediatamente al hospital más cercano o llame a las autoridades locales. Estos canales son solo para información y citas. &copy; 2026 Servicio Médico Juan Pablo II.
+          </div>
+        </section>
+      </main>
+
+      <!-- BARRA INFERIOR NATIVA CON BOTÓN CENTRAL DEL MINI LOGO -->
+      <nav class="bottom-tabbar" aria-label="Navegación de la aplicación">
+        <button type="button" class="tab-btn active" data-tab="inicio" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Inicio</span>
+        </button>
+
+        <button type="button" class="tab-btn" data-tab="especialidades">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Áreas</span>
+        </button>
+
+        <button type="button" class="tab-btn tab-btn-center" data-tab="citas" aria-label="Agendar Cita">
+          <span class="center-logo-orb">
+            <img src="assets/logo-mini-jpii.webp" alt="Citas SM Juan Pablo II" width="54" height="54">
+          </span>
+          <span>Citas</span>
+        </button>
+
+        <button type="button" class="tab-btn" data-tab="diagnostico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6.5L4.5 19A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-3L14 9.5V3"/><path d="M7.5 15h9"/></svg>
+          <span>Lab / RX</span>
+        </button>
+
+        <button type="button" class="tab-btn" data-tab="sede">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Sede</span>
+        </button>
+      </nav>
+
+      <!-- BOTTOM SHEET: DETALLE DE ESPECIALIDAD -->
+      <div class="sheet-backdrop" id="specialtySheet" role="dialog" aria-modal="true" aria-labelledby="sheetSpecTitle">
+        <div class="bottom-sheet">
+          <div class="sheet-handle" aria-hidden="true"></div>
+          <span class="bento-kicker" id="sheetSpecCat">Especialidad</span>
+          <h3 id="sheetSpecTitle" style="font-family: var(--font-display); font-size: 1.28rem; color: #FFFFFF; margin-bottom: 8px;">Especialidad</h3>
+          <p id="sheetSpecDesc" style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.58; margin-bottom: 18px;"></p>
+
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="https://wa.me/584247225404" id="sheetWaDirect" target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-wa neu-btn-full">
+              Consultar directamente por WhatsApp
+            </a>
+            <button type="button" class="neu-btn neu-btn-accent neu-btn-full" id="sheetGoComposer">
+              Configurar turno y día en Citas
+            </button>
+            <button type="button" class="neu-btn neu-btn-full" data-close-sheet="specialtySheet">Cerrar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM SHEET: INSTALACIÓN EN ANDROID Y APPLE iOS -->
+      <div class="sheet-backdrop" id="installSheet" role="dialog" aria-modal="true" aria-labelledby="installSheetTitle">
+        <div class="bottom-sheet">
+          <div class="sheet-handle" aria-hidden="true"></div>
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+            <span class="mini-emblem" style="width: 46px; height: 46px;">
+              <img src="assets/logo-mini-jpii.webp" alt="Ícono App SM Juan Pablo II" width="46" height="46">
+            </span>
+            <div>
+              <h3 id="installSheetTitle" style="font-family: var(--font-display); font-size: 1.15rem; color: #FFFFFF;">Instalar en tu Teléfono</h3>
+              <span style="font-size: 0.76rem; color: var(--hero-cyan-soft);">100 % gratuita · Sin tiendas · Funciona offline</span>
+            </div>
+          </div>
+
+          <div class="pill-selector" style="margin-bottom: 14px;">
+            <button type="button" class="neu-btn neu-chip active" data-os-tab="android">Android (Chrome)</button>
+            <button type="button" class="neu-btn neu-chip" data-os-tab="ios">Apple iPhone / iPad</button>
+          </div>
+
+          <div id="osPanelAndroid" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+            <button type="button" class="neu-btn neu-btn-wa neu-btn-full" id="nativeAndroidInstallBtn" style="display: none;">
+              Instalar ahora en Android
+            </button>
+            <div class="preview-bubble" style="font-size: 0.82rem;">
+              <strong style="display: block; color: var(--hero-cyan-soft); margin-bottom: 6px;">Pasos en Android (Chrome / Edge / Samsung):</strong>
+              1. Toca el menú <strong>&#8942;</strong> en la esquina superior derecha.<br>
+              2. Selecciona <strong>«Instalar aplicación»</strong> o <strong>«Agregar a la pantalla principal»</strong>.<br>
+              3. Confirma en <strong>Instalar</strong> y aparecerá con su ícono oficial.
+            </div>
+          </div>
+
+          <div id="osPanelIos" style="display: none; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+            <div class="preview-bubble" style="font-size: 0.82rem;">
+              <strong style="display: block; color: var(--hero-cyan-soft); margin-bottom: 6px;">Pasos en Apple iPhone / iPad (Safari):</strong>
+              1. Abre este enlace en <strong>Safari</strong>.<br>
+              2. Toca el botón <strong>Compartir</strong> (cuadro con flecha hacia arriba <strong>&#8593;</strong>) en la barra inferior.<br>
+              3. Desliza y toca <strong>«Agregar a pantalla de inicio»</strong> → <strong>Agregar</strong>.
+            </div>
+          </div>
+
+          <button type="button" class="neu-btn neu-btn-full" data-close-sheet="installSheet">Entendido</button>
+        </div>
+      </div>
+
+      <div class="toast" id="appToast" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const WA_NUMBER = '584247225404';
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const haptic = () => { try { if (navigator.vibrate) navigator.vibrate(10); } catch (_) {} };
+
+      /* Registrar Service Worker PWA (solo en http/https) */
+      if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(() => {});
+        });
+      }
+
+      /* Datos verificados de las 12 especialidades */
+      const SPECIALTIES = [
+        { name: 'Consultas Especializadas', cat: 'diagnostico', tag: 'Atención Base', wide: true, desc: 'Evaluación médica exhaustiva y planes de tratamiento individualizados según las necesidades específicas de cada paciente.', keys: 'consulta general evaluacion diagnostico' },
+        { name: 'Rayos X y Laboratorio', cat: 'diagnostico', tag: 'Diagnóstico Digital', wide: true, desc: 'Estudios radiológicos digitales de alta definición y análisis de laboratorio clínico confiables para diagnósticos oportunos.', keys: 'radiologia radiografia examenes sangre orina laboratorio' },
+        { name: 'Ginecología y Obstetricia', cat: 'familia', tag: 'Salud Femenina', desc: 'Cuidado integral de la mujer, control prenatal, citologías, ecografías y prevención ginecológica.', keys: 'mujer embarazo prenatal ecografia' },
+        { name: 'Pediatría', cat: 'familia', tag: 'Salud Infantil', desc: 'Control de niño sano, vacunación, evaluación del desarrollo y atención pediátrica desde el nacimiento hasta la adolescencia.', keys: 'ninos bebes vacunacion puericultura' },
+        { name: 'Traumatología y Ortopedia', cat: 'especialidades', tag: 'Locomotor', desc: 'Diagnóstico y tratamiento de lesiones óseas, articulares, musculares, fracturas y afecciones del sistema locomotor.', keys: 'huesos fracturas rodilla columna articulaciones' },
+        { name: 'Psiquiatría y Psicología', cat: 'familia', tag: 'Salud Mental', desc: 'Apoyo a la salud mental y emocional, terapia psicológica individual, manejo de ansiedad, depresión y orientación clínica.', keys: 'salud mental ansiedad depresion terapia' },
+        { name: 'Cardiología', cat: 'especialidades', tag: 'Cardiovascular', desc: 'Prevención, diagnóstico y tratamiento de patologías cardiovasculares, hipertensión arterial y electrocardiogramas.', keys: 'corazon hipertension electrocardiograma tension' },
+        { name: 'Neumología', cat: 'especialidades', tag: 'Respiratorio', desc: 'Atención especializada de enfermedades respiratorias, asma, EPOC, alergias respiratorias y evaluación pulmonar.', keys: 'pulmones asma epoc alergias respiratorio' },
+        { name: 'Nefrología', cat: 'especialidades', tag: 'Salud Renal', desc: 'Cuidado de la función renal, prevención del daño renal crónico, control de litiasis y manejo integral de nefropatías.', keys: 'rinones renal calculos litiasis' },
+        { name: 'Fisiatría', cat: 'especialidades', tag: 'Rehabilitación', desc: 'Medicina física y rehabilitación funcional para recuperación motora tras cirugías, dolor crónico o lesiones físicas.', keys: 'rehabilitacion fisioterapia dolor cronico' },
+        { name: 'Urología', cat: 'especialidades', tag: 'Urológica', desc: 'Salud del tracto urinario y sistema reproductor masculino, chequeo prostático preventivo y tratamiento urológico.', keys: 'urinario prostata masculino' },
+        { name: 'Medicina Interna', cat: 'diagnostico', tag: 'Atención Base', desc: 'Manejo clínico global del paciente adulto, control de enfermedades crónicas como diabetes e hipertensión arterial.', keys: 'adulto diabetes hipertension cronicas' }
+      ];
+
+      /* 1. Navegación nativa por pestañas (Bottom Tab Bar) */
+      const scroller = document.getElementById('appScroller');
+      const tabBtns = document.querySelectorAll('.tab-btn[data-tab]');
+      const views = document.querySelectorAll('.app-view');
+
+      const switchTab = (tabId) => {
+        haptic();
+        views.forEach(v => v.classList.toggle('active', v.id === `view-${tabId}`));
+        tabBtns.forEach(b => {
+          const isMatch = b.dataset.tab === tabId;
+          b.classList.toggle('active', isMatch);
+          if (isMatch) b.setAttribute('aria-current', 'page');
+          else b.removeAttribute('aria-current');
+        });
+        if (scroller) scroller.scrollTop = 0;
+      };
+
+      tabBtns.forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+      document.querySelectorAll('[data-go-tab]').forEach(el => {
+        el.addEventListener('click', () => switchTab(el.dataset.goTab));
+      });
+
+      /* Soportar deep links desde Android Shortcuts (#citas, #especialidades, #diagnostico) */
+      const initialHash = location.hash.replace('#', '');
+      if (['inicio', 'especialidades', 'citas', 'diagnostico', 'sede'].includes(initialHash)) {
+        switchTab(initialHash);
+      }
+
+      /* 2. Hero 3D Parallax táctil + giroscopio en teléfonos */
+      const hero3D = document.getElementById('mobileHero3D');
+      const heroSheen = document.getElementById('mobileHeroSheen');
+
+      if (hero3D && !prefersReduced) {
+        const tiltHero = (nx, ny) => {
+          const rx = (0.5 - ny) * 10;
+          const ry = (nx - 0.5) * 10;
+          hero3D.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+          if (heroSheen) {
+            heroSheen.style.setProperty('--mx', `${(nx * 100).toFixed(0)}%`);
+            heroSheen.style.setProperty('--my', `${(ny * 100).toFixed(0)}%`);
+          }
+        };
+
+        hero3D.addEventListener('pointermove', (e) => {
+          const r = hero3D.getBoundingClientRect();
+          tiltHero((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height);
+        });
+        hero3D.addEventListener('pointerleave', () => { hero3D.style.transform = ''; });
+
+        window.addEventListener('deviceorientation', (e) => {
+          if (typeof e.gamma !== 'number' || typeof e.beta !== 'number') return;
+          const nx = Math.max(0, Math.min(1, (e.gamma + 35) / 70));
+          const ny = Math.max(0, Math.min(1, (e.beta - 20) / 70));
+          tiltHero(nx, ny);
+        }, { passive: true });
+      }
+
+      /* 3. Renderizado de las 12 Especialidades + Búsqueda + Bottom Sheet nativo */
+      const specGrid = document.getElementById('mobileSpecGrid');
+      const specSelect = document.getElementById('appSpecSelect');
+      const specSheet = document.getElementById('specialtySheet');
+      const sheetCat = document.getElementById('sheetSpecCat');
+      const sheetTitle = document.getElementById('sheetSpecTitle');
+      const sheetDesc = document.getElementById('sheetSpecDesc');
+      const sheetWaDirect = document.getElementById('sheetWaDirect');
+      const sheetGoComposer = document.getElementById('sheetGoComposer');
+      let activeSheetSpec = SPECIALTIES[0].name;
+
+      const openSpecialtySheet = (spec) => {
+        haptic();
+        activeSheetSpec = spec.name;
+        if (sheetCat) sheetCat.textContent = spec.tag;
+        if (sheetTitle) sheetTitle.textContent = spec.name;
+        if (sheetDesc) sheetDesc.textContent = spec.desc;
+        if (sheetWaDirect) {
+          sheetWaDirect.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Hola Servicio Médico Juan Pablo II, deseo consultar disponibilidad para ${spec.name}.`)}`;
+        }
+        specSheet?.classList.add('open');
+      };
+
+      SPECIALTIES.forEach((s) => {
+        if (specSelect) {
+          const opt = document.createElement('option');
+          opt.value = s.name;
+          opt.textContent = s.name;
+          specSelect.appendChild(opt);
+        }
+
+        if (specGrid) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `spec-tile${s.wide ? ' wide' : ''}`;
+          btn.dataset.cat = s.cat;
+          btn.dataset.search = `${s.name} ${s.tag} ${s.keys} ${s.desc}`.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+          const iconWrap = document.createElement('span');
+          iconWrap.className = 'spec-tile-icon';
+          iconWrap.setAttribute('aria-hidden', 'true');
+          iconWrap.textContent = '+';
+          iconWrap.style.fontFamily = 'var(--font-display)';
+          iconWrap.style.fontSize = '1.25rem';
+          iconWrap.style.fontWeight = '700';
+
+          const textWrap = document.createElement('div');
+          const h3 = document.createElement('h3');
+          h3.textContent = s.name;
+          const sm = document.createElement('small');
+          sm.textContent = s.tag;
+          textWrap.append(h3, sm);
+
+          btn.append(iconWrap, textWrap);
+          btn.addEventListener('click', () => openSpecialtySheet(s));
+          specGrid.appendChild(btn);
+        }
+      });
+
+      /* Filtro y búsqueda en tiempo real */
+      const mobileSearch = document.getElementById('mobileSearch');
+      const mFilterBtns = document.querySelectorAll('[data-mfilter]');
+      let activeMFilter = 'all';
+
+      const filterMobileSpecs = () => {
+        const q = (mobileSearch?.value || '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        specGrid?.querySelectorAll('.spec-tile').forEach(tile => {
+          const catOk = activeMFilter === 'all' || tile.dataset.cat === activeMFilter;
+          const textOk = !q || (tile.dataset.search || '').includes(q);
+          tile.classList.toggle('is-hidden', !(catOk && textOk));
+        });
+      };
+
+      mFilterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          haptic();
+          mFilterBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+          activeMFilter = btn.dataset.mfilter || 'all';
+          filterMobileSpecs();
+        });
+      });
+      mobileSearch?.addEventListener('input', filterMobileSpecs);
+
+      /* 4. Asistente Privado de Citas (0 almacenamiento) */
+      let chosenTurno = 'en el turno de la mañana (07:00 a.m. - 12:00 m.)';
+      let chosenDia = 'lo antes posible';
+      const appWaPreview = document.getElementById('appWaPreview');
+      const appWaSendBtn = document.getElementById('appWaSendBtn');
+
+      const updateAppWa = () => {
+        const esp = specSelect?.value || 'Consultas Especializadas';
+        const msg = `Hola Servicio Médico Juan Pablo II, deseo consultar disponibilidad y tarifas para ${esp}, preferiblemente ${chosenDia}, ${chosenTurno}.`;
+        if (appWaPreview) appWaPreview.textContent = msg;
+        if (appWaSendBtn) appWaSendBtn.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+      };
+
+      specSelect?.addEventListener('change', updateAppWa);
+
+      document.querySelectorAll('#turnoPills [data-turno]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          haptic();
+          document.querySelectorAll('#turnoPills [data-turno]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          chosenTurno = btn.dataset.turno;
+          updateAppWa();
+        });
+      });
+
+      document.querySelectorAll('#diaPills [data-dia]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          haptic();
+          document.querySelectorAll('#diaPills [data-dia]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          chosenDia = btn.dataset.dia;
+          updateAppWa();
+        });
+      });
+      updateAppWa();
+
+      sheetGoComposer?.addEventListener('click', () => {
+        if (specSelect) specSelect.value = activeSheetSpec;
+        updateAppWa();
+        specSheet?.classList.remove('open');
+        switchTab('citas');
+        showToast(`Seleccionado: ${activeSheetSpec}`);
+      });
+
+      document.querySelectorAll('[data-book-spec]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (specSelect) specSelect.value = btn.dataset.bookSpec;
+          updateAppWa();
+          switchTab('citas');
+        });
+      });
+
+      /* 5. Checklist Interactivo de Preparación (en memoria, sin almacenamiento) */
+      const checkItems = Array.from(document.querySelectorAll('#prepChecklist .check-item'));
+      const checkLabel = document.getElementById('checkProgressLabel');
+      const checkBar = document.getElementById('checkProgressBar');
+
+      const updateChecklist = () => {
+        const done = checkItems.filter(i => i.classList.contains('checked')).length;
+        if (checkLabel) checkLabel.textContent = `${done} / ${checkItems.length} listos`;
+        if (checkBar) checkBar.style.width = `${(done / checkItems.length) * 100}%`;
+      };
+
+      checkItems.forEach(item => {
+        item.addEventListener('click', () => {
+          haptic();
+          const checked = item.classList.toggle('checked');
+          item.setAttribute('aria-pressed', String(checked));
+          updateChecklist();
+        });
+      });
+
+      /* 6. Estado Horario en Vivo Venezuela (UTC-4) */
+      const updateVeTime = () => {
+        const now = new Date();
+        const ve = new Date(now.getTime() + now.getTimezoneOffset() * 60000 - 4 * 3600000);
+        const day = ve.getDay();
+        const mins = ve.getHours() * 60 + ve.getMinutes();
+        const isWeek = day >= 1 && day <= 5;
+        const inMorn = isWeek && mins >= 420 && mins < 720;
+        const inBreak = isWeek && mins >= 720 && mins < 840;
+        const inAft = isWeek && mins >= 840 && mins < 1080;
+
+        const hh = ve.getHours(), mm = String(ve.getMinutes()).padStart(2, '0');
+        const h12 = hh % 12 || 12, ap = hh >= 12 ? 'p.m.' : 'a.m.';
+        const clk = document.getElementById('veClockMobile');
+        if (clk) clk.textContent = `${h12}:${mm} ${ap}`;
+
+        const dot = document.getElementById('topStatusDot');
+        const txt = document.getElementById('topStatusText');
+        const sum = document.getElementById('shiftSummaryMobile');
+        const bar = document.getElementById('shiftBarMobile');
+
+        document.getElementById('mShiftMorning')?.classList.toggle('active-shift', inMorn);
+        document.getElementById('mShiftAfternoon')?.classList.toggle('active-shift', inAft);
+
+        if (inMorn) {
+          dot?.classList.remove('closed');
+          if (txt) txt.textContent = 'Abierto · Mañana';
+          if (sum) sum.textContent = 'Abierto ahora · Turno Mañana hasta las 12:00 m.';
+          if (bar) bar.style.width = `${Math.max(10, ((mins - 420) / 300) * 100).toFixed(0)}%`;
+        } else if (inAft) {
+          dot?.classList.remove('closed');
+          if (txt) txt.textContent = 'Abierto · Tarde';
+          if (sum) sum.textContent = 'Abierto ahora · Turno Tarde hasta las 06:00 p.m.';
+          if (bar) bar.style.width = `${Math.max(10, ((mins - 840) / 240) * 100).toFixed(0)}%`;
+        } else if (inBreak) {
+          dot?.classList.add('closed');
+          if (txt) txt.textContent = 'Receso · Abre 2:00 p.m.';
+          if (sum) sum.textContent = 'Receso de mediodía · Reabrimos a las 02:00 p.m.';
+          if (bar) bar.style.width = '50%';
+        } else {
+          dot?.classList.add('closed');
+          if (txt) txt.textContent = 'Cerrado · Lun–Vie';
+          if (sum) sum.textContent = 'Fuera de horario · Lun–Vie 7–12 m. y 2–6 p.m.';
+          if (bar) bar.style.width = '12%';
+        }
+      };
+      updateVeTime();
+      setInterval(updateVeTime, 60000);
+
+      /* 7. Instalación Inteligente Android (beforeinstallprompt) y Apple iOS (Safari) */
+      let deferredPrompt = null;
+      const installSheet = document.getElementById('installSheet');
+      const nativeAndroidBtn = document.getElementById('nativeAndroidInstallBtn');
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+      if (isStandalone) {
+        const hb = document.getElementById('homeInstallBanner');
+        if (hb) hb.style.display = 'none';
+      }
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (nativeAndroidBtn) nativeAndroidBtn.style.display = 'inline-flex';
+      });
+
+      const selectOsTab = (os) => {
+        document.querySelectorAll('[data-os-tab]').forEach(b => b.classList.toggle('active', b.dataset.osTab === os));
+        const pa = document.getElementById('osPanelAndroid');
+        const pi = document.getElementById('osPanelIos');
+        if (pa) pa.style.display = os === 'android' ? 'flex' : 'none';
+        if (pi) pi.style.display = os === 'ios' ? 'flex' : 'none';
+      };
+
+      document.querySelectorAll('[data-os-tab]').forEach(btn => {
+        btn.addEventListener('click', () => { haptic(); selectOsTab(btn.dataset.osTab); });
+      });
+
+      const openInstallModal = async () => {
+        haptic();
+        if (deferredPrompt && !isIOS) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          if (outcome === 'accepted') showToast('¡App instalada en tu Android!');
+          return;
+        }
+        selectOsTab(isIOS ? 'ios' : 'android');
+        installSheet?.classList.add('open');
+      };
+
+      document.getElementById('openInstallBtn')?.addEventListener('click', openInstallModal);
+      document.getElementById('bannerInstallBtn')?.addEventListener('click', openInstallModal);
+      document.getElementById('sedeInstallBtn')?.addEventListener('click', () => {
+        haptic();
+        selectOsTab(isIOS ? 'ios' : 'android');
+        installSheet?.classList.add('open');
+      });
+
+      nativeAndroidBtn?.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        installSheet?.classList.remove('open');
+        if (outcome === 'accepted') showToast('¡App instalada!');
+      });
+
+      /* Cerrar Bottom Sheets */
+      document.querySelectorAll('[data-close-sheet]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.getElementById(btn.dataset.closeSheet)?.classList.remove('open');
+        });
+      });
+
+      [specSheet, installSheet].forEach(sheet => {
+        sheet?.addEventListener('click', (e) => {
+          if (e.target === sheet) sheet.classList.remove('open');
+        });
+      });
+
+      /* Copiar números + Toast */
+      const toast = document.getElementById('appToast');
+      let toastTimer;
+      const showToast = (msg) => {
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+      };
+
+      document.querySelectorAll('[data-copy]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          haptic();
+          const val = btn.dataset.copy || '';
+          try { await navigator.clipboard.writeText(val); showToast(`Copiado: ${val}`); }
+          catch { showToast(val); }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
