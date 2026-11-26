@@ -1,0 +1,18 @@
+{
+  "actualizado": "2026-11-26",
+  "nota": "Configuración pública de disponibilidad por especialidad (cero datos de pacientes). Para marcar un día sin vacantes o ausencia del especialista, agregue el día en minúsculas sin acentos (lunes, martes, miercoles, jueves, viernes) en 'sin_vacantes' o 'no_asiste'.",
+  "especialidades": {
+    "Consultas Especializadas": { "no_asiste": [], "sin_vacantes": [] },
+    "Rayos X y Laboratorio": { "no_asiste": [], "sin_vacantes": [] },
+    "Ginecología y Obstetricia": { "no_asiste": [], "sin_vacantes": [] },
+    "Pediatría": { "no_asiste": [], "sin_vacantes": [] },
+    "Traumatología y Ortopedia": { "no_asiste": [], "sin_vacantes": [] },
+    "Psiquiatría y Psicología": { "no_asiste": [], "sin_vacantes": [] },
+    "Cardiología": { "no_asiste": [], "sin_vacantes": [] },
+    "Neumología": { "no_asiste": [], "sin_vacantes": [] },
+    "Nefrología": { "no_asiste": [], "sin_vacantes": [] },
+    "Fisiatría": { "no_asiste": [], "sin_vacantes": [] },
+    "Urología": { "no_asiste": [], "sin_vacantes": [] },
+    "Medicina Interna": { "no_asiste": [], "sin_vacantes": [] }
+  }
+}

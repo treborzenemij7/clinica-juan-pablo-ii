@@ -3,12 +3,13 @@
    Caché estática 100 % segura: solo recursos públicos de la interfaz.
    CERO almacenamiento de datos clínicos o personales de pacientes.
    ========================================================================== */
-const CACHE_NAME = 'jpii-mobile-pwa-v1';
+const CACHE_NAME = 'jpii-mobile-pwa-v2';
 const PRECACHE_URLS = [
   './',
   './app.html',
   './index.html',
   './manifest.webmanifest',
+  './disponibilidad.json',
   './assets/hero-jpii.webp',
   './assets/logo-mini-jpii.webp',
   './assets/logo-mini-jpii.png',
@@ -43,7 +44,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  if (request.mode === 'navigate') {
+  if (request.mode === 'navigate' || url.pathname.endsWith('disponibilidad.json')) {
     event.respondWith(
       fetch(request)
         .then((response) => {
