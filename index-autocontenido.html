@@ -1466,6 +1466,135 @@
       flex: 1 1 230px;
     }
 
+    .contingency-alert {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(145deg, rgba(128, 54, 24, 0.5), rgba(64, 22, 24, 0.65));
+      border: 1px solid rgba(243, 203, 124, 0.48);
+      font-size: 0.84rem;
+      color: #FFF2DC;
+    }
+
+    .contingency-alert.visible { display: flex; }
+
+    .reschedule-trigger-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 13px 16px;
+      margin-bottom: 16px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(145deg, rgba(16, 62, 104, 0.64), rgba(4, 28, 58, 0.78));
+      border: 1px solid rgba(243, 203, 124, 0.36);
+    }
+
+    .reschedule-trigger-bar strong {
+      display: block;
+      font-size: 0.86rem;
+      color: var(--hero-gold);
+    }
+
+    .reschedule-trigger-bar span {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+
+    /* Modal Glassmorphism de Reprogramación / Otro Día Disponible */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 2100;
+      background: rgba(0, 8, 24, 0.72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+      animation: drawerPop 0.22s var(--ease-out) both;
+    }
+
+    .reschedule-modal {
+      width: min(560px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(155deg, rgba(10, 52, 92, 0.95) 0%, rgba(1, 20, 46, 0.98) 100%);
+      border: 1px solid rgba(126, 235, 255, 0.36);
+      box-shadow: 0 30px 80px rgba(0, 5, 18, 0.86);
+      padding: clamp(20px, 3vw, 28px);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .modal-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .date-pill-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    @media (max-width: 540px) {
+      .date-pill-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    .date-option-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 11px 13px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--neu-rim);
+      background: linear-gradient(145deg, var(--neu-surface-hi), var(--neu-surface-lo));
+      color: #FFFFFF;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 5px 6px 12px var(--neu-shadow-dark), -3px -3px 9px var(--neu-shadow-light);
+      transition: transform 0.16s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .date-option-btn:hover { border-color: rgba(126, 235, 255, 0.56); transform: translateY(-1px); }
+
+    .date-option-btn.active {
+      background: linear-gradient(145deg, #031B38, #0A3E70);
+      border-color: rgba(30, 227, 255, 0.72);
+      box-shadow: inset 4px 4px 10px rgba(0, 7, 22, 0.85), 0 0 14px rgba(30, 227, 255, 0.22);
+    }
+
+    .date-option-btn strong { display: block; font-size: 0.84rem; color: #FFFFFF; }
+    .date-option-btn small { display: block; font-size: 0.7rem; color: var(--hero-cyan-soft); }
+
+    .day-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--hero-emerald);
+      flex-shrink: 0;
+    }
+
     /* ==========================================================================
        DASHBOARD 6: HORARIOS, MAPA TOPOGRÁFICO EJIDO Y CANALES DIRECTOS
        ========================================================================== */
@@ -2592,14 +2721,45 @@
                 <div class="field-group">
                   <label for="citaDia">Día deseado</label>
                   <select id="citaDia" class="neu-select">
-                    <option value="lo antes posible">Lo antes posible</option>
+                    <option value="lo antes posible" data-daykey="pronto">Lo antes posible</option>
+                    <option value="el día lunes" data-daykey="lunes">Lunes</option>
+                    <option value="el día martes" data-daykey="martes">Martes</option>
+                    <option value="el día miércoles" data-daykey="miercoles">Miércoles</option>
+                    <option value="el día jueves" data-daykey="jueves">Jueves</option>
+                    <option value="el día viernes" data-daykey="viernes">Viernes</option>
+                  </select>
+                </div>
+
+                <div class="field-group full">
+                  <label for="citaDiaAlt">Día alternativo — Plan B (si el especialista no asiste o no hay vacantes)</label>
+                  <select id="citaDiaAlt" class="neu-select">
+                    <option value="el próximo día disponible">Cualquier próximo día disponible</option>
                     <option value="el día lunes">Lunes</option>
                     <option value="el día martes">Martes</option>
                     <option value="el día miércoles">Miércoles</option>
                     <option value="el día jueves">Jueves</option>
                     <option value="el día viernes">Viernes</option>
+                    <option value="ninguno">Sin día alternativo</option>
                   </select>
                 </div>
+              </div>
+
+              <!-- Alerta automática si disponibilidad.json indica ausencia o sin vacantes -->
+              <div class="contingency-alert" id="dayUnavailableAlert" role="status" aria-live="polite">
+                <strong id="dayUnavailableTitle" style="color: var(--hero-gold);">Día sin disponibilidad</strong>
+                <p id="dayUnavailableText" style="line-height: 1.45;"></p>
+                <div class="modal-pill-row" id="suggestedAltPills"></div>
+              </div>
+
+              <!-- Acceso directo a reprogramar / elegir otra fecha disponible -->
+              <div class="reschedule-trigger-bar">
+                <div>
+                  <strong>¿Sin vacantes o el médico no asiste ese día?</strong>
+                  <span>Elija otra fecha hábil disponible del calendario y envíela al instante.</span>
+                </div>
+                <button type="button" class="neu-btn neu-btn-sm neu-btn-accent" id="openRescheduleModalBtn">
+                  Elegir otro día disponible
+                </button>
               </div>
 
               <div class="wa-preview-card">
@@ -2842,6 +3002,62 @@
         <polyline points="18 15 12 9 6 15"/>
       </svg>
     </button>
+  </div>
+
+  <!-- MODAL GLASSMORPHISM: ELEGIR OTRO DÍA DISPONIBLE (AUSENCIA DEL MÉDICO O SIN VACANTES) -->
+  <div class="modal-backdrop" id="rescheduleModal" role="dialog" aria-modal="true" aria-labelledby="rescheduleModalTitle">
+    <div class="reschedule-modal">
+      <div class="modal-head">
+        <div>
+          <span class="bento-label" style="margin-bottom: 6px;">Cambio / Reprogramación de Día</span>
+          <h3 id="rescheduleModalTitle" style="font-family: var(--font-display); font-size: 1.38rem; color: #FFFFFF;">Elegir otro día disponible</h3>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">
+            Si el especialista no asiste a consulta o no quedan vacantes para la fecha inicial, seleccione otro día hábil:
+          </p>
+        </div>
+        <button type="button" class="neu-btn neu-btn-icon" id="closeRescheduleModalBtn" aria-label="Cerrar ventana">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="field-group">
+          <label>1. Situación</label>
+          <div class="modal-pill-row" id="webReasonPills">
+            <button type="button" class="neu-btn neu-btn-sm active" data-reason="no había vacantes disponibles ese día">Sin vacantes ese día</button>
+            <button type="button" class="neu-btn neu-btn-sm" data-reason="el especialista no asistía a consulta ese día">Especialista no asiste</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>2. Elija una nueva fecha disponible (<span id="webRescheduleSpecName">Especialidad</span>)</label>
+          <div class="date-pill-grid" id="webAvailableDatesGrid"></div>
+        </div>
+
+        <div class="field-group">
+          <label>3. Turno para la nueva fecha</label>
+          <div class="modal-pill-row" id="webRescheduleTurnoPills">
+            <button type="button" class="neu-btn neu-btn-sm active" data-rturno="en el turno de la mañana (07:00 a.m. - 12:00 m.)">Mañana (7–12)</button>
+            <button type="button" class="neu-btn neu-btn-sm" data-rturno="en el turno de la tarde (02:00 p.m. - 06:00 p.m.)">Tarde (2–6)</button>
+            <button type="button" class="neu-btn neu-btn-sm" data-rturno="en el próximo turno disponible">Cualquiera</button>
+          </div>
+        </div>
+
+        <div class="wa-preview-card" style="margin-bottom: 0;">
+          <small>Vista previa de solicitud de nuevo día</small>
+          <p id="webReschedulePreview"></p>
+        </div>
+
+        <div class="composer-cta-row">
+          <a href="https://wa.me/584247225404" id="webRescheduleWaBtn" target="_blank" rel="noopener noreferrer" class="neu-btn neu-btn-wa">
+            Confirmar nuevo día por WhatsApp
+          </a>
+          <button type="button" class="neu-btn neu-btn-accent" id="webApplyRescheduleBtn">
+            Usar en mi solicitud
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -3181,22 +3397,212 @@
         });
       });
 
-      /* 6. ASISTENTE PRIVADO DE CITAS WHATSAPP */
+      /* 6. ASISTENTE PRIVADO DE CITAS WHATSAPP + PLAN B + REPROGRAMACIÓN */
       const selEsp = document.getElementById('citaEspecialidad');
       const selTurno = document.getElementById('citaTurno');
       const selDia = document.getElementById('citaDia');
+      const selDiaAlt = document.getElementById('citaDiaAlt');
       const preview = document.getElementById('waPreviewText');
       const waBtn = document.getElementById('waSendBtn');
 
+      const unavailAlert = document.getElementById('dayUnavailableAlert');
+      const unavailTitle = document.getElementById('dayUnavailableTitle');
+      const unavailText = document.getElementById('dayUnavailableText');
+      const suggestedAltPills = document.getElementById('suggestedAltPills');
+
+      let availabilityMap = {};
+      let customSelectedDateText = '';
+
+      const DAY_LABELS = {
+        lunes: 'el día lunes',
+        martes: 'el día martes',
+        miercoles: 'el día miércoles',
+        jueves: 'el día jueves',
+        viernes: 'el día viernes'
+      };
+      const DAY_SHORT = { lunes: 'Lun', martes: 'Mar', miercoles: 'Mié', jueves: 'Jue', viernes: 'Vie' };
+      const DAY_KEYS_ORDER = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
+      const MONTHS_ES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+      const JS_DAY_TO_KEY = { 1: 'lunes', 2: 'martes', 3: 'miercoles', 4: 'jueves', 5: 'viernes' };
+
+      const getDayStatus = (specName, dayKey) => {
+        if (!dayKey || dayKey === 'pronto') return 'disponible';
+        const cfg = availabilityMap[specName] || {};
+        if (Array.isArray(cfg.no_asiste) && cfg.no_asiste.includes(dayKey)) return 'no_asiste';
+        if (Array.isArray(cfg.sin_vacantes) && cfg.sin_vacantes.includes(dayKey)) return 'sin_vacantes';
+        return 'disponible';
+      };
+
+      const getUpcomingAvailableDates = (specName, count = 6) => {
+        const now = new Date();
+        const veBase = new Date(now.getTime() + now.getTimezoneOffset() * 60000 - 4 * 3600000);
+        const out = [];
+        for (let offset = 1; offset <= 21 && out.length < count; offset++) {
+          const d = new Date(veBase.getTime() + offset * 86400000);
+          const key = JS_DAY_TO_KEY[d.getDay()];
+          if (!key || getDayStatus(specName, key) !== 'disponible') continue;
+          out.push({
+            key,
+            label: `${DAY_SHORT[key]} ${d.getDate()} ${MONTHS_ES[d.getMonth()]}`,
+            fullText: `${DAY_LABELS[key]} ${d.getDate()} de ${MONTHS_ES[d.getMonth()]}`
+          });
+        }
+        return out;
+      };
+
+      const refreshAvailabilityUI = () => {
+        if (!selEsp || !selDia) return;
+        const esp = selEsp.value;
+        const selectedOpt = selDia.options[selDia.selectedIndex];
+        const dayKey = selectedOpt?.dataset?.daykey || 'pronto';
+        const status = getDayStatus(esp, dayKey);
+
+        if (status !== 'disponible' && unavailAlert && unavailTitle && unavailText && suggestedAltPills) {
+          unavailAlert.classList.add('visible');
+          unavailTitle.textContent = status === 'no_asiste'
+            ? `El especialista en ${esp} no asiste ${selDia.value}`
+            : `Sin vacantes para ${esp} ${selDia.value}`;
+          unavailText.textContent = 'Seleccione otro día disponible para su consulta:';
+          while (suggestedAltPills.firstChild) suggestedAltPills.removeChild(suggestedAltPills.firstChild);
+
+          DAY_KEYS_ORDER.filter(k => getDayStatus(esp, k) === 'disponible').forEach(k => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'neu-btn neu-btn-sm';
+            btn.textContent = `Elegir ${DAY_SHORT[k]}`;
+            btn.addEventListener('click', () => {
+              customSelectedDateText = '';
+              selDia.value = DAY_LABELS[k];
+              updateWa();
+              showToast(`Cambiado a ${DAY_LABELS[k]}`);
+            });
+            suggestedAltPills.appendChild(btn);
+          });
+        } else {
+          unavailAlert?.classList.remove('visible');
+        }
+      };
+
       const updateWa = () => {
         if (!selEsp || !selTurno || !selDia || !preview || !waBtn) return;
-        const msg = `Hola Servicio Médico Juan Pablo II, deseo consultar disponibilidad y tarifas para ${selEsp.value}, preferiblemente ${selDia.value}, ${selTurno.value}.`;
+        refreshAvailabilityUI();
+        const diaStr = customSelectedDateText || selDia.value;
+        const altVal = selDiaAlt?.value || 'ninguno';
+        let altClause = '';
+        if (altVal !== 'ninguno' && altVal !== diaStr) {
+          altClause = ` En caso de que el especialista no asista o no haya vacantes ese día, deseo como opción alternativa ${altVal}.`;
+        }
+        const msg = `Hola Servicio Médico Juan Pablo II, deseo consultar disponibilidad y tarifas para ${selEsp.value}, preferiblemente ${diaStr}, ${selTurno.value}.${altClause}`;
         preview.textContent = msg;
         waBtn.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
       };
 
-      [selEsp, selTurno, selDia].forEach(el => el?.addEventListener('change', updateWa));
+      selDia?.addEventListener('change', () => { customSelectedDateText = ''; updateWa(); });
+      [selEsp, selTurno, selDiaAlt].forEach(el => el?.addEventListener('change', updateWa));
+
+      if (location.protocol === 'http:' || location.protocol === 'https:') {
+        fetch('./disponibilidad.json', { cache: 'no-cache' })
+          .then(r => r.ok ? r.json() : null)
+          .then(data => {
+            if (data && data.especialidades) {
+              availabilityMap = data.especialidades;
+              updateWa();
+            }
+          })
+          .catch(() => {});
+      }
       updateWa();
+
+      /* Modal de Reprogramación / Elegir otro día disponible */
+      const resModal = document.getElementById('rescheduleModal');
+      const webResSpecName = document.getElementById('webRescheduleSpecName');
+      const webDatesGrid = document.getElementById('webAvailableDatesGrid');
+      const webResPreview = document.getElementById('webReschedulePreview');
+      const webResWaBtn = document.getElementById('webRescheduleWaBtn');
+      const webApplyBtn = document.getElementById('webApplyRescheduleBtn');
+
+      let webResReason = 'no había vacantes disponibles ese día';
+      let webResTurno = 'en el turno de la mañana (07:00 a.m. - 12:00 m.)';
+      let webResDate = null;
+
+      const updateWebRescheduleWa = () => {
+        const esp = selEsp?.value || 'Consultas Especializadas';
+        const dText = webResDate ? webResDate.fullText : 'el próximo día disponible';
+        const msg = `Hola Servicio Médico Juan Pablo II, solicito elegir otro día para mi consulta de ${esp} debido a que ${webResReason}. Deseo agendar para ${dText}, ${webResTurno}.`;
+        if (webResPreview) webResPreview.textContent = msg;
+        if (webResWaBtn) webResWaBtn.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+      };
+
+      const openWebRescheduleModal = () => {
+        const esp = selEsp?.value || 'Consultas Especializadas';
+        if (webResSpecName) webResSpecName.textContent = esp;
+        const dates = getUpcomingAvailableDates(esp, 6);
+        webResDate = dates[0] || null;
+
+        if (webDatesGrid) {
+          while (webDatesGrid.firstChild) webDatesGrid.removeChild(webDatesGrid.firstChild);
+          dates.forEach((d, idx) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `date-option-btn${idx === 0 ? ' active' : ''}`;
+            const left = document.createElement('div');
+            const st = document.createElement('strong');
+            st.textContent = d.label;
+            const sm = document.createElement('small');
+            sm.textContent = 'Disponible';
+            left.append(st, sm);
+
+            const dot = document.createElement('span');
+            dot.className = 'day-dot';
+            dot.setAttribute('aria-hidden', 'true');
+            btn.append(left, dot);
+
+            btn.addEventListener('click', () => {
+              webDatesGrid.querySelectorAll('.date-option-btn').forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+              webResDate = d;
+              updateWebRescheduleWa();
+            });
+            webDatesGrid.appendChild(btn);
+          });
+        }
+        updateWebRescheduleWa();
+        resModal?.classList.add('open');
+      };
+
+      document.getElementById('openRescheduleModalBtn')?.addEventListener('click', openWebRescheduleModal);
+      document.getElementById('closeRescheduleModalBtn')?.addEventListener('click', () => resModal?.classList.remove('open'));
+      resModal?.addEventListener('click', (e) => { if (e.target === resModal) resModal.classList.remove('open'); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') resModal?.classList.remove('open'); });
+
+      document.querySelectorAll('#webReasonPills [data-reason]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#webReasonPills [data-reason]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          webResReason = btn.dataset.reason;
+          updateWebRescheduleWa();
+        });
+      });
+
+      document.querySelectorAll('#webRescheduleTurnoPills [data-rturno]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#webRescheduleTurnoPills [data-rturno]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          webResTurno = btn.dataset.rturno;
+          updateWebRescheduleWa();
+        });
+      });
+
+      webApplyBtn?.addEventListener('click', () => {
+        if (webResDate && selDia && selTurno) {
+          selDia.value = DAY_LABELS[webResDate.key] || 'lo antes posible';
+          customSelectedDateText = webResDate.fullText;
+          selTurno.value = webResTurno;
+          updateWa();
+          showToast(`Nuevo día elegido: ${webResDate.label}`);
+        }
+        resModal?.classList.remove('open');
+      });
 
       document.querySelectorAll('[data-choose]').forEach(btn => {
         btn.addEventListener('click', () => {
